@@ -1,10 +1,16 @@
 import Header from './layouts/Header/Header'
+import Main from './layouts/Main/Main'
+import Footer from './layouts/Footer/Footer'
 import './App.css'
 
 
 function App() {
   return (
-    <Header/>
+    <>
+      <Header/>
+      <Main/>
+      <Footer/>
+    </>
   )
 }
 
