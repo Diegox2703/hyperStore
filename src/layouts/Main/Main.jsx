@@ -1,9 +1,8 @@
+import Banner from '../../components/Banner/Banner'
 import './Main.css'
 
 export default function Main() {
     return (
-        <main className="main-content">
-            My Main
-        </main>
+        <Banner/>
     )
 }

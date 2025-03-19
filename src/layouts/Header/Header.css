@@ -351,35 +351,6 @@
         }
 }
 
-@media screen and (width < 500px) {
-    .main-header {
-        .header-content {
-            .header-nav {
-                width: 100%;
-            }
-            .page-logo {
-                .logo {
-                    width: 40px;
-                    height: 40px;
-                    
-                    .handshake-icon, .truck-icon {
-                        font-size: 20px;
-                    }
-                }
-            }
-        }
-    }
-
-    .main-content {
-        padding: 10px 10px;
-    }
-    .banner {
-        .slider-section {
-            padding: 20px 10px;
-        }
-    }
-}
-
 /* Animations */
 
 @keyframes speed-effect {
