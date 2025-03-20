@@ -38,7 +38,7 @@ export default function Header() {
                 </a>
                 <nav className="header-nav">
                     <ul className="nav-list">
-                        <li className="nav-item active"><a href="./index.html">Inicio</a></li>
+                        <li className="nav-item active"><a href="/">Inicio</a></li>
                         <li className="nav-item"><a href="./pages/register-page.html">Registro</a></li>
                         <li className="nav-item"><a href="./pages/contact-page.html">Contacto</a></li>
                         <li className="nav-item"><a href="./pages/about-page.html">Acerca de nosotros</a></li>
