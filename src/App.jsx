@@ -1,15 +1,20 @@
-import Header from './layouts/Header/Header'
+import { Route, Routes } from 'react-router'
 import Main from './layouts/Main/Main'
-import Footer from './layouts/Footer/Footer'
+import Home from './pages/Home/Home'
+import Register from './pages/Register/Register'
 import './App.css'
+import './form.css'
 
 
 function App() {
   return (
     <>
-      <Header/>
-      <Main/>
-      <Footer/>
+        <Routes>
+          <Route path='/' element={ <Main/> }>
+            <Route index element={ <Home/> }/>
+            <Route path='register' element={ <Register/> }/>
+          </Route>
+        </Routes>
     </>
   )
 }

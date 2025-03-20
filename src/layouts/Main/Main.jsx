@@ -1,18 +1,22 @@
-import { Route, Routes } from 'react-router'
-import Home from '../../pages/Home'
+import { Outlet, Route, Routes } from 'react-router'
+import Header from '../Header/Header'
+import Banner from '../../components/Banner/Banner'
+import Footer from '../Footer/Footer'
 import './Main.css'
 
 export default function Main() {
     return (
         <>  
-            <Routes><Route path='/' element={ <Home/> }/></Routes>
+            <Header/>
+            <Routes>
+                <Route path='/' element={ <Banner/> }/>
+            </Routes>
             <main className="main">
                 <div className="main-content">
-                    <Routes>
-                        {/* <Route path='/home' element={}/> */}
-                    </Routes>
+                    <Outlet/>
                 </div>
             </main>
+            <Footer/>
         </>
     )
 }
