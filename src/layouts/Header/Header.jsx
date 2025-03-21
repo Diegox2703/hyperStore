@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartShopping, faCloud, faTruck, faUserAlt } from '@fortawesome/free-solid-svg-icons'
 import { faHandshake } from '@fortawesome/free-regular-svg-icons'
+import { NavLink } from 'react-router'
 import './Header.css'
 
 export default function Header() {
@@ -13,7 +14,7 @@ export default function Header() {
                         <div className="burger"></div>
                     </div>
                 </label>
-                <a href="./index.html" className="page-logo">
+                <NavLink to={'/'} className="page-logo">
                     <div className="logo">
                         <div className="clouds">
                             <div className="cloud cloud-1">
@@ -35,14 +36,14 @@ export default function Header() {
                         </div>
                     </div>
                     <h1 className="page-name">HyperStore</h1>
-                </a>
+                </NavLink>
                 <nav className="header-nav">
                     <ul className="nav-list">
-                        <li className="nav-item active"><a href="/">Inicio</a></li>
-                        <li className="nav-item"><a href="./pages/register-page.html">Registro</a></li>
-                        <li className="nav-item"><a href="./pages/contact-page.html">Contacto</a></li>
-                        <li className="nav-item"><a href="./pages/about-page.html">Acerca de nosotros</a></li>
-                        <li className="nav-item"><a href="./pages/dashboard-page.html">Admin productos</a></li>
+                        <li className={`nav-item ${(isActive) => isActive && 'active'}`}><NavLink to={'/'}>Inicio</NavLink></li>
+                        <li className="nav-item"><NavLink to={'/register'}>Registro</NavLink></li>
+                        <li className="nav-item"><NavLink to={'/contact'}>Contacto</NavLink></li>
+                        <li className="nav-item"><NavLink to={'/about'}>Acerca de nosotros</NavLink></li>
+                        <li className="nav-item"><NavLink to={'/admin'}>Admin productos</NavLink></li>
                     </ul>
                 </nav>
                 <section className="user-section">

@@ -4,12 +4,13 @@
     height: 100%;
 }
 
-.title-sections {
+.title {
     margin: 0;
     padding-bottom: 5px;
     border-bottom: 3px solid var(--secondary-color);
     color: var(--secondary-color);
     font-family: var(--secondary-font);
+    font-size: 32px;
 }
 
 @media screen and (width <= 920px) {

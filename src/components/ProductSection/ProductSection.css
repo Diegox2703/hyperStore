@@ -34,13 +34,13 @@
             }
         }
 
-        .product-title {
+        .product-title-section {
             font-family: var(--primary-font);
             font-size: 12px;
             padding: 0 15px;
             overflow: hidden;
 
-            .title {
+            .product-title {
                 display: -webkit-box;
                 line-clamp: 2;
                 -webkit-line-clamp: 2;

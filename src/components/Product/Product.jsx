@@ -6,8 +6,8 @@ export default function Product() {
             <section className="product-image">
                 <img src={laptopImg} alt="product-image" className="image"/>
             </section>
-            <section className="product-title">
-                <h2 className="title" title="Laptop Gamer Hp Victus 16-d0504la Memoria Ram 8 Gb Full Hd Azul">Laptop Gamer Hp Victus 16-d0504la Memoria Ram 8 Gb Full Hd Azul</h2>
+            <section className="product-title-section">
+                <h2 className="product-title" title="Laptop Gamer Hp Victus 16-d0504la Memoria Ram 8 Gb Full Hd Azul">Laptop Gamer Hp Victus 16-d0504la Memoria Ram 8 Gb Full Hd Azul</h2>
             </section>
             <section className="product-buy-btn">
                 <a href="#" className="buy-btn">
