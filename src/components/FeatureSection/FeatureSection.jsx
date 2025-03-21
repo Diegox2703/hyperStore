@@ -5,7 +5,7 @@ import './FeatureSection.css'
 export default function FeatureSection() {
     return (
         <>
-            <h1 className="title-sections">Caracteristicas del servicio</h1>
+            <h1 className="title">Caracteristicas del servicio</h1>
             <section className="service-features-section">
                 <article className="service-features">
                     <div className="feature feature-1">

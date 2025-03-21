@@ -198,6 +198,7 @@
                 padding: 0;
     
                 .nav-item {
+                    display: inline-block;
                     border-radius: 20px;
                     padding: 2px;
                     outline: 2px solid transparent;
@@ -228,7 +229,7 @@
                     }
                 }
     
-                .nav-item.active {
+                .nav-item:has(a.active) {
                     outline: 2px solid var(--primary-color);
     
                     a {
