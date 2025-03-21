@@ -4,18 +4,42 @@ import sportImg from '../../images/banner-images/sport-illustration.webp'
 import householdAppliancesImg from '../../images/banner-images/household-appliances.jpg'
 import furnitureImg from '../../images/banner-images/furniture.webp'
 import artImg from '../../images/banner-images/art-2.jpg'
+import { useEffect, useRef } from 'react'
 import './Banner.css'
 
 export default function Banner() {
+    let intervalRef = useRef(null)
+    let timeoutRef = useRef(null)
+
+    function autoPlayCarousel(index = 1) {
+        const sliders = document.querySelectorAll('.slider')
+
+        intervalRef.current = setInterval(() => {
+            sliders[index].checked = true
+            index !== 5 ? index++ : index = 0
+        }, 6000)
+    }
+
+    function stopAndRestartCarousel(event) {
+        const currentSlider = parseInt(event.target.dataset.slideridx)
+        clearInterval(intervalRef.current)
+        clearTimeout(timeoutRef.current)
+        timeoutRef.current = setTimeout(() => autoPlayCarousel(currentSlider), 6000)
+    }
+
+    useEffect(() => {
+        autoPlayCarousel() 
+    }, [])
+
     return (
         <>
             <section className="banner">
-                <input type="radio" name="slider" id="toggle-slider-1"/>
-                <input type="radio" name="slider" id="toggle-slider-2"/>
-                <input type="radio" name="slider" id="toggle-slider-3"/>
-                <input type="radio" name="slider" id="toggle-slider-4"/>
-                <input type="radio" name="slider" id="toggle-slider-5"/>
-                <input type="radio" name="slider" id="toggle-slider-6"/>
+                <input type="radio" name="slider" className='slider' id="toggle-slider-1" data-slideridx='0' onClick={stopAndRestartCarousel} defaultChecked/>
+                <input type="radio" name="slider" className='slider' id="toggle-slider-2" data-slideridx='1' onClick={stopAndRestartCarousel}/>
+                <input type="radio" name="slider" className='slider' id="toggle-slider-3" data-slideridx='2' onClick={stopAndRestartCarousel}/>
+                <input type="radio" name="slider" className='slider' id="toggle-slider-4" data-slideridx='3' onClick={stopAndRestartCarousel}/>
+                <input type="radio" name="slider" className='slider' id="toggle-slider-5" data-slideridx='4' onClick={stopAndRestartCarousel}/>
+                <input type="radio" name="slider" className='slider' id="toggle-slider-6" data-slideridx='5' onClick={stopAndRestartCarousel}/>
                 <div className="slider-section slider-section-1">
                     <div className="slider-container">
                         <div className="slider-content">
