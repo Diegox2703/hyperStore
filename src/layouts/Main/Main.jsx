@@ -2,6 +2,7 @@ import { Outlet, Route, Routes } from 'react-router'
 import Header from '../Header/Header'
 import Banner from '../../components/Banner/Banner'
 import Footer from '../Footer/Footer'
+import ProductModal from '../ProductModal/ProductModal'
 import './Main.css'
 
 export default function Main() {
@@ -11,6 +12,7 @@ export default function Main() {
             <Routes>
                 <Route path='/' element={ <Banner/> }/>
             </Routes>
+            <ProductModal/>
             <main className="main">
                 <div className="main-content">
                     <Outlet/>

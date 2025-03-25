@@ -1,11 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCartShopping, faCloud, faTruck, faUserAlt } from '@fortawesome/free-solid-svg-icons'
+import { faAdd, faCartShopping, faCloud, faTruck, faUserAlt } from '@fortawesome/free-solid-svg-icons'
 import { faHandshake } from '@fortawesome/free-regular-svg-icons'
 import { NavLink } from 'react-router'
 import { useRef } from 'react'
+import { useProducts } from '../../context/productContext'
 import './Header.css'
 
 export default function Header() {
+    const { toggleProductModal } = useProducts()
     const burgerRef = useRef(null)
 
     function closeSideMenu() {
@@ -54,6 +56,9 @@ export default function Header() {
                     </ul>
                 </nav>
                 <section className="user-section">
+                    <div className="new-product-btn" title='Crear nuevo producto' onClick={() => toggleProductModal()}>
+                        <FontAwesomeIcon className='new-product-icon' icon={faAdd}/>
+                    </div>
                     <div className="cart">
                         <FontAwesomeIcon className='cart-icon' icon={faCartShopping}/>
                     </div>

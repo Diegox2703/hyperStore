@@ -7,6 +7,13 @@ export default function ProductSection() {
             <h1 className="title">Productos</h1>
             <section className="products-section">
                 <Product/>
+                <Product/>
+                <Product/>
+                <Product/>
+                <Product/>
+                <Product/>
+                <Product/>
+                <Product/>
             </section>
         </>
     )

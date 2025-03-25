@@ -1,15 +1,16 @@
 .products-section {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     flex-wrap: wrap;
     justify-content: center;
     padding: 10px 0;
     gap: 15px;
 
     .product-card {
+        position: relative;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        flex-basis: 300px;
         height: auto;
         background-color: white;
         border-radius: 20px;
@@ -50,53 +51,50 @@
             }
         }
 
-        .product-buy-btn {
-            width: 100%;
-            outline: 2px solid var(--primary-color);
-            border-radius: 20px;
-            padding: 3px;
-            transition: outline .3s ease-in-out;
+        .product-action-btns {
+            display: flex;
+            align-items: center;
+            gap: 10px;
 
             .buy-btn {
                 position: relative;
                 display: inline-block;
                 text-align: center;
                 width: 100%;
-                text-decoration: none;
-                padding: 10px 20px;
+                outline: 2px solid var(--primary-color);
+                border-radius: 20px;
+                padding: 3px;
+                transition: outline .3s ease-in-out;
                 border-radius: 20px;
                 color: var(--secondary-color);
                 font-family: var(--primary-font);
                 font-size: 12px;
-                background-color: var(--primary-color);
                 font-weight: 600;
-                transition: background-color .3s ease-in-out;
                 cursor: pointer;
 
                 .price {
-                    transition: opacity .3s ease-in-out;
+                    transition: opacity .3s ease-in-out, background-color .3s ease-in-out;
+                    background-color: var(--primary-color);
+                    padding: 10px 20px;
+                    border-radius: 20px;
                     margin: 0;
                 }
 
                 &::after {
                     position: absolute;
-                    content: "Comprar";
+                    content: "Ver detalles";
                     color: var(--primary-color);
                     opacity: 0;
                     top: 50%;
                     transition: opacity .3s ease-in-out;
                     transform: translate(-50%, -50%);
                 }
-            }
 
-            &:hover {
-                outline: 2px solid var(--secondary-color);
-
-                .buy-btn {
-                    background-color: var(--secondary-color);
-
+                &:hover {
+                    outline: 2px solid var(--secondary-color);
+    
                     .price {
-                        opacity: 0;
+                        background-color: var(--secondary-color);
                     }
 
                     &:after {
@@ -104,10 +102,47 @@
                     }
                 }
             }
-        }
 
+        }
+        
+        .cart-btn {
+            position: absolute;
+            right: 10px;
+            display: flex;
+            visibility: hidden;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            outline: 2px solid var(--primary-color);
+            padding: 3px;
+            width: 40px;
+            height: 40px;
+            transition: outline .3s ease-in-out, visibility .3s ease-in-out;
+
+            .cart-icon {
+                background-color: var(--primary-color);
+                color: var(--secondary-color);
+                padding: 10px;
+                border-radius: 50%;
+                transition: background-color .3s ease-in-out, color .3s ease-in-out;
+            }
+
+            &:hover {
+                outline: 2px solid var(--secondary-color);
+
+                .cart-icon {
+                    background-color: var(--secondary-color);
+                    color: var(--primary-color);
+                }
+            }
+        }
         &:hover {
             outline: 2px solid var(--secondary-color);
+
+            .cart-btn {
+                visibility: visible;
+            }
         }
     }
 }
+
