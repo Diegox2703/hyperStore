@@ -270,6 +270,35 @@
                     }
                 }
             }
+
+            .new-product-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                padding: 2px;
+                outline: 2px solid var(--primary-color);
+                cursor: pointer;
+                transition: outline .3s ease-in-out;
+                color: var(--secondary-color);
+
+                .new-product-icon {
+                    border-radius: 50%;
+                    padding: 10px;
+                    width: 18px;
+                    background-color: var(--primary-color);
+                    transition: background-color .3s ease-in-out;
+                }
+
+                &:hover {
+                    outline: 2px solid var(--secondary-color);
+                    color: var(--primary-color);
+
+                    .new-product-icon {
+                        background-color: var(--secondary-color);
+                    }
+                }
+            }
         }
     
         #burger-input:checked {

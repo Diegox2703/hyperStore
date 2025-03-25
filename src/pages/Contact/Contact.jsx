@@ -7,13 +7,13 @@ export default function Contact() {
                 <section className="contact-section">
                     <h1 className="form-title">Formulario De Contacto</h1>
                     <div className="input-group">
-                        <input id="name" name="name" type="text" placeholder="Nombre Completo" minLength={10} maxLength={40} autoComplete="off" autoFocus required/>
+                        <input className='input-field' id="name" name="name" type="text" placeholder="Nombre Completo" minLength={10} maxLength={40} autoComplete="off" autoFocus required/>
                     </div>
                     <div className="input-group">
-                        <input id="email" name="email" type="email" placeholder="Correo Electronico" maxLength={40} autoComplete="off" required/>
+                        <input className='input-field' id="email" name="email" type="email" placeholder="Correo Electronico" maxLength={40} autoComplete="off" required/>
                     </div>
                     <div className="input-group">
-                        <textarea id="message" name="message" placeholder="Mensaje"  maxLength={600} required></textarea>
+                        <textarea className='textarea-input' id="message" name="message" placeholder="Mensaje"  maxLength={600} required></textarea>
                     </div>
                     <div className="form-btn-container">
                         <button className="form-btn">Contactar</button>

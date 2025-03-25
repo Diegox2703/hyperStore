@@ -4,14 +4,14 @@ import sportImg from '../../images/banner-images/sport-illustration.webp'
 import householdAppliancesImg from '../../images/banner-images/household-appliances.jpg'
 import furnitureImg from '../../images/banner-images/furniture.webp'
 import artImg from '../../images/banner-images/art-2.jpg'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './Banner.css'
 
 export default function Banner() {
+    let [sliderIdx, setSlidexIdx] = useState(1)  
     let intervalRef = useRef(null)
-    let timeoutRef = useRef(null)
 
-    function autoPlayCarousel(index = 1) {
+    function autoPlayCarousel(index) {
         const sliders = document.querySelectorAll('.slider')
 
         intervalRef.current = setInterval(() => {
@@ -23,13 +23,12 @@ export default function Banner() {
     function stopAndRestartCarousel(event) {
         const currentSlider = parseInt(event.target.dataset.slideridx)
         clearInterval(intervalRef.current)
-        clearTimeout(timeoutRef.current)
-        timeoutRef.current = setTimeout(() => autoPlayCarousel(currentSlider), 6000)
+        setSlidexIdx(currentSlider)
     }
 
     useEffect(() => {
-        autoPlayCarousel() 
-    }, [])
+        autoPlayCarousel(sliderIdx) 
+    }, [sliderIdx])
 
     return (
         <>

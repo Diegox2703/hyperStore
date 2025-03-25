@@ -30,102 +30,140 @@
         font-size: 14px;
         color: var(--secondary-color);
     }
+}
 
-    .input-group {
-        position: relative;
-        padding: 3px;
-        outline: 2px solid var(--secondary-color);
+.input-group {
+    position: relative;
+    padding: 3px;
+    outline: 2px solid var(--secondary-color);
+    border-radius: 20px;
+
+    .input-field {
+        border: none;
+        padding: 10px 15px;
+        width: 100%;
         border-radius: 20px;
+        border: 2px solid var(--secondary-color);
+        outline: none;
+        font-family: var(--primary-font);
+        color: var(--secondary-color);
+        font-weight: 600;
+        transition: color .3s ease-in-out, background-color .3s ease-in-out;
 
-        input {
-            border: none;
-            padding: 10px 15px;
-            width: 100%;
-            border-radius: 20px;
-            border: 2px solid var(--secondary-color);
-            outline: none;
-            font-family: var(--primary-font);
+        &::placeholder {
             color: var(--secondary-color);
-            font-weight: 600;
-            transition: color .3s ease-in-out, background-color .3s ease-in-out;
+            font-weight: 400;
+        }
+
+        &:focus {
+            color: var(--primary-color);
+            background-color: var(--secondary-color);
 
             &::placeholder {
-                color: var(--secondary-color);
-                font-weight: 400;
-            }
-
-            &:focus {
-                color: var(--primary-color);
-                background-color: var(--secondary-color);
-
-                &::placeholder {
-                    color: var(--primary-color);
-                }
-            }
-        }
-
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            color: var(--secondary-color);
-            border-radius: 50%;
-            padding-right: 20px;
-        }
-
-        &:has(:required) {
-            &::after {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                position: absolute;
-                content: "!";
-                right: 11px;
-                top: 12px;
-                background-color: var(--secondary-color);
-                font-family: var(--primary-font);
-                font-size: 20px;
-                font-weight: 600;
-                border-radius: 50%;
-                color: white;
-                width: 20px;
-                height: 20px;
-                transition: color .3s ease-in-out;
-            }
-        }
-
-        &:has(:valid) {
-            &::after {
-                content: "✔";
-                font-size: 15px;
-            }
-        }
-
-        &:has(:focus) {
-            &::after {
                 color: var(--primary-color);
             }
         }
     }
 
-    .form-btn-container {
-        outline: 2px solid var(--secondary-color);
-        padding: 2px;
-        border-radius: 20px;
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        color: var(--secondary-color);
+        border-radius: 50%;
+        padding-right: 20px;
+    }
 
-        .form-btn {
-            border: none;
-            outline: none;
-            width: 100%;
-            padding: 10px;
-            border-radius: 20px;
-            background-color: none;
-            cursor: pointer;
+    .warning-icon {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        background-color: var(--secondary-color);
+        padding: 5px;
+        border-radius: 50%;
+        color: var(--primary-color);
+    }
+
+    &:has(:focus) {
+        &::after {
             color: var(--primary-color);
-            background-color: var(--secondary-color);
-            transition: background-color .3s ease-in-out;
-            font-weight: 600;
-
-            &:hover {
-                background-color: rgb(17, 113, 145);
-            }
         }
     }
 }
+
+.error-msg {
+    font-size: 14px;
+    background-color: var(--secondary-color);
+    padding: 5px;
+    color: var(--primary-color);
+    width: fit-content;
+    border-radius: 10px;
+}
+
+.form-btn-container {
+    outline: 2px solid var(--secondary-color);
+    padding: 2px;
+    border-radius: 20px;
+
+    .form-btn {
+        border: none;
+        outline: none;
+        width: 100%;
+        padding: 10px;
+        border-radius: 20px;
+        background-color: none;
+        cursor: pointer;
+        color: var(--primary-color);
+        background-color: var(--secondary-color);
+        transition: background-color .3s ease-in-out;
+        font-weight: 600;
+
+        &:hover {
+            background-color: rgb(17, 113, 145);
+        }
+    }
+}
+
+.textarea-input {
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    border: 2px solid var(--secondary-color);
+    color: var(--secondary-color);
+    font-family: var(--primary-font);
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    padding-right: 28px;
+    resize: none;
+    scrollbar-width: none;
+    transition: color .3s ease-in-out, background-color .3s ease-in-out;
+
+    &::placeholder {
+        color: var(--secondary-color);
+    }
+
+    &:focus {
+        color: var(--primary-color);
+        background-color: var(--secondary-color);
+
+        &::placeholder {
+            color: var(--primary-color);
+        }
+    }
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none; 
+    -moz-appearance: none;
+}
+
+input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+  }
+  
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;  
+  }
+  
