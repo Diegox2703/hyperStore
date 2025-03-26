@@ -2,16 +2,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClose, faWarning } from '@fortawesome/free-solid-svg-icons'
 import { useForm } from 'react-hook-form'
 import { useProducts } from '../../context/productContext'
-import './ProductModal.css'
 import { useEffect } from 'react'
+import './ProductModal.css'
 
 export default function ProductModal() {
-    const { isOpen, toggleProductModal, addProduct } = useProducts()
-    const { register, handleSubmit, reset, formState: { errors } } = useForm()
+    const { isOpen, toggleProductModal, addProduct, editProduct } = useProducts()
+    const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm()
     
     useEffect(() => {
         if (!isOpen) reset()
     }, [isOpen])
+
+    useEffect(() => {
+        if (editProduct) {
+            setValue('product_name', editProduct.product_name)
+            setValue('description', editProduct.description)
+            setValue('category', editProduct.category)
+            setValue('product_image', editProduct.product_image)
+            setValue('price', editProduct.price)
+        }
+    }, [editProduct])
 
     if (!isOpen) return;
 
