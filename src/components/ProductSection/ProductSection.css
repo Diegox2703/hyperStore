@@ -51,7 +51,7 @@
             }
         }
 
-        .product-action-btns {
+        .buy-btn-section {
             display: flex;
             align-items: center;
             gap: 10px;
@@ -107,7 +107,8 @@
         
         .cart-btn {
             position: absolute;
-            right: 10px;
+            right: 18px;
+            top: 18px;
             display: flex;
             visibility: hidden;
             align-items: center;

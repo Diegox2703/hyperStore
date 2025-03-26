@@ -1,19 +1,20 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import laptopImg from '../../images/product-images/laptop.webp'
 import { faCartPlus } from '@fortawesome/free-solid-svg-icons'
 
-export default function Product() {
+export default function Product( { productData } ) {
+    const { id, product_image, product_name, price } = productData
+
     return (
-        <article className="product-card">
+        <article key={ id } className="product-card">
             <section className="product-image">
-                <img src={laptopImg} alt="product-image" className="image"/>
+                <img src={ product_image } alt="product-image" className="image"/>
             </section>
             <section className="product-title-section">
-                <h2 className="product-title" title="Laptop Gamer Hp Victus 16-d0504la Memoria Ram 8 Gb Full Hd Azul">Laptop Gamer Hp Victus 16-d0504la Memoria Ram 8 Gb Full Hd Azul</h2>
+                <h2 className="product-title" title={ product_name }>{ product_name }</h2>
             </section>
-            <section className="product-action-btns">
+            <section className="buy-btn-section">
                 <a href="#" className="buy-btn">
-                    <p className="price">$3.099.000</p>
+                    <p className="price">${ price }</p>
                 </a>
             </section>
             <a href="#" className="cart-btn" title='Agregar al carrito'>

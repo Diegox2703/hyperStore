@@ -327,7 +327,7 @@
 
 /* Media query */
 
-@media screen and (width > 1000px) {
+@media screen and (width > 1045px) {
     .main-header {
         padding: 0 50px;
 
