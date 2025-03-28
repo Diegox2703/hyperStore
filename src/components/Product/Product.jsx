@@ -1,7 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartPlus } from '@fortawesome/free-solid-svg-icons'
+import { useCart } from '../../context/cartContext'
 
 export default function Product( { productData } ) {
+    const { addProductToCart } = useCart()
     const { id, product_image, product_name, price } = productData
 
     return (
@@ -17,9 +19,9 @@ export default function Product( { productData } ) {
                     <p className="price">${ price }</p>
                 </a>
             </section>
-            <a href="#" className="cart-btn" title='Agregar al carrito'>
+            <button className="cart-btn" title='Agregar al carrito' onClick={() => addProductToCart(productData)}>
                 <FontAwesomeIcon className='cart-icon' icon={faCartPlus}/>
-            </a>
+            </button>
         </article>
     )
 }
