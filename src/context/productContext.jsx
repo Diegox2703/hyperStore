@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import { useCart } from "./cartContext";
 
 const ProductContext = createContext()
 
@@ -10,6 +11,7 @@ function ProductProvider( {children} ) {
     const [products, setProducts] = useState([])
     const [isOpen, setIsOpen] = useState(false)
     const [editProduct, setEditProduct] = useState(null)
+    const { removeFromCartIfDeleted, updateFromCartIfUpdated } = useCart()
 
     const URL = 'https://67cf1b76823da0212a81711b.mockapi.io'
 
@@ -49,6 +51,7 @@ function ProductProvider( {children} ) {
                 const { data } = await axios.put(`${URL}/products/${editProduct.id}`, formData)
                 const updatedProducts = products.map(product => product.id === editProduct.id ? {...data} : product)
                 
+                updateFromCartIfUpdated(data)
                 setProducts(updatedProducts)
                 setEditProduct(null)
                 modal('success', '¡Producto actualizado con exito!')
@@ -84,7 +87,7 @@ function ProductProvider( {children} ) {
             showCancelButton: true,
             cancelButtonColor: "#d33",
             cancelButtonText: 'Cancelar',
-            confirmButtonText: "<div style='color: rgb(255, 255, 137)'>Ok</div>",
+            confirmButtonText: "<div style='color: rgb(255, 255, 137)'>Si</div>",
             confirmButtonColor: 'rgb(0, 88, 117)',
             color: 'rgb(0, 88, 117)',
             customClass: {
@@ -96,6 +99,7 @@ function ProductProvider( {children} ) {
                   await axios.delete(`${URL}/products/${id}`)
     
                   const newProducts = products.filter(product => product.id !== id)
+                  removeFromCartIfDeleted(id)
                   setProducts(newProducts)
     
                   Swal.fire({

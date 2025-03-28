@@ -2,17 +2,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAdd, faCartShopping, faCloud, faTruck, faUserAlt } from '@fortawesome/free-solid-svg-icons'
 import { faHandshake } from '@fortawesome/free-regular-svg-icons'
 import { NavLink } from 'react-router'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useProducts } from '../../context/productContext'
+import { useCart } from '../../context/cartContext'
 import './Header.css'
 
 export default function Header() {
     const { toggleProductModal } = useProducts()
+    const { count, getCartProducts } = useCart()
     const burgerRef = useRef(null)
 
     function closeSideMenu() {
         burgerRef.current.checked = false
     }
+
+    useEffect(() => {
+        getCartProducts()
+    }, [])
 
     return (
         <header className="main-header">
@@ -59,9 +65,10 @@ export default function Header() {
                     <div className="new-product-btn" title='Crear nuevo producto' onClick={() => toggleProductModal()}>
                         <FontAwesomeIcon className='new-product-icon' icon={faAdd}/>
                     </div>
-                    <div className="cart">
+                    <NavLink to={'/cart'} className="cart">
                         <FontAwesomeIcon className='cart-icon' icon={faCartShopping}/>
-                    </div>
+                        { count > 0 && <span className='item-count'>{ count }</span>}
+                    </NavLink>
                     <div className="user">
                         <FontAwesomeIcon className='user-icon' icon={faUserAlt}/>
                     </div>

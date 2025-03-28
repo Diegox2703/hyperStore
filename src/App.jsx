@@ -5,6 +5,7 @@ import Register from './pages/Register/Register'
 import Contact from './pages/Contact/Contact'
 import About from './pages/About/About'
 import Dashboard from './pages/Dashboard/Dashboard'
+import Cart from './pages/Cart/Cart'
 import './App.css'
 import './form.css'
 
@@ -19,6 +20,7 @@ function App() {
             <Route path='contact' element={ <Contact/> }/>
             <Route path='about' element={ <About/> }/>
             <Route path='admin' element={ <Dashboard/> }/>
+            <Route path='cart' element={ <Cart/> } />
             <Route path='*' element={ <h1>404 Not Found</h1> }/>
           </Route>
         </Routes>
