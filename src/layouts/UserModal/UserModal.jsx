@@ -1,18 +1,30 @@
-import { faWarning } from "@fortawesome/free-solid-svg-icons/faWarning"
+import { faClose, faWarning } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import axios from "axios"
 import { useForm } from "react-hook-form"
-import { useNavigate } from "react-router"
 import { modal } from "../../utils/modalUtils"
+import { useEffect } from "react"
+import axios from "axios"
+import './UserModal.css'
 
-export default function Register() {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm()
+export default function UserModal({ toggleUserModal, setUsers, users, editUser }) {
+    const { register, handleSubmit, watch, formState: { errors }, setValue, reset } = useForm()
     const URL = 'https://67cf1b76823da0212a81711b.mockapi.io'
-    const navigate = useNavigate();
+    
+    useEffect(() => {
+        if (editUser) {
+            setValue('user_name', editUser.user_name)
+            setValue('email', editUser.email)
+            setValue('password', editUser.password)
+            setValue('repeat_password', editUser.password)
+            setValue('birthday', editUser.birthday)
+            setValue('country', editUser.country)
+        } else {
+            reset()
+        }
+    }, [editUser])
 
     async function addUser(formData) {
         const { user_name, email, password, birthday, country } = formData
-
         const newUser = {
             user_name,
             email,
@@ -20,21 +32,45 @@ export default function Register() {
             birthday,
             country
         }
-        
-        try {
-            const { data } = await axios.post(`${URL}/users`, newUser)
-            console.log(data)
-            navigate('/')
-        } catch (error) {
-            console.log(error)
-            modal('error', 'Oops...', 'Parece que algo salio mal, intentelo mas tarde')
+
+        if (editUser) {
+            try {
+                const { data } = await axios.put(`${URL}/users/${editUser.id}`, newUser)
+                const updatedUsers = users.map(user => user.id === data.id ? {...data} : user)
+
+                setUsers(updatedUsers)
+                modal('success', 'Usuario actualizado con exito!')
+            } catch (error) {
+                console.log(error)
+                modal('error', 'Oops...', 'Parece que algo salio mal, intentelo mas tarde')
+            }
+        } else {            
+            try {
+                const { data } = await axios.post(`${URL}/users`, newUser)
+
+                setUsers([...users, data])
+                modal('success', 'Usuario subido con con exito!')
+            } catch (error) {
+                console.log(error)
+                modal('error', 'Oops...', 'Parece que algo salio mal, intentelo mas tarde')
+            }
         }
+        toggleUserModal()
     }
-    
+
     return (
-        <div className="form-container">
-            <form className="form register-form" onSubmit={handleSubmit(addUser)} noValidate>
-                <h1 className="form-title">Registro</h1>
+        <div className="modal-overlay" onClick={() => toggleUserModal()}>
+            <form className="form modal-register-form" 
+                  onSubmit={handleSubmit(addUser)} 
+                  onClick={(e) => e.stopPropagation()}
+                  noValidate
+            >
+                <div className="modal-header">
+                    <h2 className='modal-title'>{editUser ? 'Actualizar usuario' : 'Nuevo usuario'}</h2>
+                    <div className="close-modal-btn" onClick={() => toggleUserModal()}>
+                        <FontAwesomeIcon className='close-modal-icon' icon={faClose}/>
+                    </div>
+                </div>
                 <div className="input-group">
                     <input {...register('user_name', {
                         required: 'Campo vacio',
@@ -50,7 +86,7 @@ export default function Register() {
                         pattern: {
                             value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                             message: "Ingrese un correo válido",
-                          }
+                            }
                     })} className="input-field" id="email" type="email" placeholder="Correo Electronico"  autoComplete="off"/>
                     { errors.email && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
                 </div>
@@ -91,7 +127,7 @@ export default function Register() {
                 </div>
                 { errors.country && <span className="error-msg">{errors.country.message}</span> }
                 <div className="form-btn-container">
-                    <button className="form-btn">Registrarse</button>
+                    <button className="form-btn"> {editUser ? 'Actualizar' : 'Crear' } </button>
                 </div>
             </form>
         </div>

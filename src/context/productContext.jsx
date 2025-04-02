@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import { modal } from "../utils/modalUtils.js";
 import { useCart } from "./cartContext";
 
 const ProductContext = createContext()
@@ -8,7 +9,7 @@ const ProductContext = createContext()
 export const useProducts = () => useContext(ProductContext)
 
 function ProductProvider( {children} ) {
-    const [products, setProducts] = useState([])
+    const [products, setProducts] = useState(null)
     const [isOpen, setIsOpen] = useState(false)
     const [editProduct, setEditProduct] = useState(null)
     const { removeFromCartIfDeleted, updateFromCartIfUpdated } = useCart()
@@ -18,20 +19,6 @@ function ProductProvider( {children} ) {
     function toggleProductModal() {
         setIsOpen(!isOpen)
         setEditProduct(null)
-    }
-
-    function modal(icon, title, text) {
-        return Swal.fire({
-            icon: icon,
-            title: title,
-            text: text,
-            color: 'rgb(0, 88, 117)',
-            confirmButtonColor: 'rgb(0, 88, 117)',
-            confirmButtonText: '<div style="color: rgb(255, 255, 137)">Ok</div>',
-            customClass: {
-                popup: 'custom-popup'
-            }
-        })
     }
 
     async function getProducts() {
@@ -101,18 +88,8 @@ function ProductProvider( {children} ) {
                   const newProducts = products.filter(product => product.id !== id)
                   removeFromCartIfDeleted(id)
                   setProducts(newProducts)
-    
-                  Swal.fire({
-                    title: "¡Eliminado!",
-                    text: "Tu producto fue eliminado con exito",
-                    icon: "success",
-                    confirmButtonText: "<div style='color: rgb(255, 255, 137)'>Ok</div>",
-                    confirmButtonColor: 'rgb(0, 88, 117)',
-                    color: 'rgb(0, 88, 117)',
-                    customClass: {
-                        popup: 'custom-popup'
-                    }
-                  });
+                    
+                  modal('success', 'Eliminado', 'Tu producto fue eliminado con exito')
                 }
             } catch (error) {
                 console.log(error)

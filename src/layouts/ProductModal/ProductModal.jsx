@@ -29,7 +29,7 @@ export default function ProductModal() {
         <div className="modal-overlay" onClick={() => toggleProductModal()}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <div className="modal-header">
-                    <h2 className='modal-title'>Nuevo Producto</h2>
+                    <h2 className='modal-title'>{ editProduct ? 'Actualizar Producto' : 'Nuevo Producto' }</h2>
                     <div className="close-modal-btn" onClick={() => toggleProductModal()}>
                         <FontAwesomeIcon className='close-modal-icon' icon={faClose}/>
                     </div>
@@ -60,12 +60,12 @@ export default function ProductModal() {
                                 required: 'Campo vacio'
                             })} className='input-field'>
                                 <option value="">...</option>
-                                <option value="tecnologia">Tecnologia</option>
-                                <option value="ropa">Ropa</option>
-                                <option value="deportes">Deportes</option>
-                                <option value="electrodomesticos">Electrodomesticos</option>
-                                <option value="muebles">Muebles</option>
-                                <option value="arte">Arte</option>
+                                <option value="Tecnologia">Tecnologia</option>
+                                <option value="Ropa">Ropa</option>
+                                <option value="Deportes">Deportes</option>
+                                <option value="Electrodomesticos">Electrodomesticos</option>
+                                <option value="Muebles">Muebles</option>
+                                <option value="Arte">Arte</option>
                             </select>
                             { errors.category && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
                         </div>
@@ -86,7 +86,7 @@ export default function ProductModal() {
                         </div>
                         { errors.price && <span className="error-msg">{errors.price.message}</span> }
                         <div className="new-product-btn-container">
-                            <button className="new-product-btn">Subir</button>
+                            <button className="new-product-btn">{ editProduct ? 'Actualizar' : 'Subir' }</button>
                         </div>
                     </form>
                 </div>

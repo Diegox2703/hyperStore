@@ -1,0 +1,45 @@
+.modal-register-form {
+    max-height: 600px;
+    overflow: auto;
+    animation: slideDown .3s forwards;
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .modal-title {
+            font-family: var(--primary-font);
+            color: var(--secondary-color);
+            margin: 0;
+        }
+
+        .close-modal-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            padding: 3px;
+            outline: 2px solid rgb(255, 36, 36);
+            cursor: pointer;
+            transition: outline .2s ease-in-out;
+
+            .close-modal-icon {
+                background-color: rgb(255, 36, 36);
+                padding: 7px;
+                border-radius: 50%;
+                width: 18px;
+                color: white;
+                transition: background-color .2s ease-in-out;
+            }
+
+            &:hover {
+                outline: 2px solid rgb(255, 71, 71);
+
+                .close-modal-icon {
+                    background-color: rgb(255, 71, 71);
+                }
+            }
+        }
+    }
+}

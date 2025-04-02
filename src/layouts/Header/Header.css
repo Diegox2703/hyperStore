@@ -228,6 +228,77 @@
                         }
                     }
                 }
+
+                .admin-button {
+                    position: relative;
+                    font-family: var(--primary-font);
+                    font-size: 14px;
+                    font-weight: 600;
+                    border-radius: 20px;
+                    text-align: start;
+                    transition: outline .3s ease-in-out;
+                    outline: 2px solid transparent;
+                    padding: 2px;
+                    margin: 0;
+                    cursor: pointer;
+
+                    .admin-button-text {
+                        display: flex;
+                        justify-content: space-between;
+                        margin: 0;
+                        color: var(--secondary-color);
+                        border-radius: 20px;
+                        padding: 10px 15px;
+                        box-sizing: border-box;
+                        transition: background-color .3s ease-in-out;
+                    }
+
+                    &:hover {
+                        outline: 2px solid var(--primary-color);
+    
+                        .admin-button-text {
+                            background-color: var(--primary-color);
+                        }
+                    }
+                }
+
+                .admin-button:focus {
+                    .dropdown-menu {
+                        visibility: visible;
+                        opacity: 1;
+                    }
+                }
+
+                .admin-button:has(a.active) {
+                    outline: 1px solid var(--primary-color);
+
+                    .admin-button-text {
+                        background-color: var(--primary-color);
+                    }
+                }
+
+                .dropdown-menu {
+                    visibility: hidden;
+                    position: absolute;
+                    top: 50px;
+                    border: 1px solid #ccc;
+                    border-radius: 10px;
+                    overflow: hidden;
+                    width: 100%;
+                    z-index: 10;
+                    background-color: white;
+                    opacity: 0;
+                    transition: visibility .3s ease-in-out, opacity .3s ease-in-out;
+
+                    .nav-item {
+                        border-radius: 0;
+                        padding: 0;
+
+                        a {
+                            border-radius: 0;
+                        }
+                    }
+                }
     
                 .nav-item:has(a.active) {
                     outline: 2px solid var(--primary-color);
@@ -399,6 +470,25 @@
                                 background-color: var(--primary-color);
                             }
                         }
+                    }
+                }
+
+                .admin-button {
+                    display: flex;
+                    justify-content: center;
+                }
+
+                .admin-button-text {
+                    display: flex;
+                    width: 85px;
+                }
+
+                .dropdown-menu {
+                    width: 200px !important;
+
+                    .nav-item {
+                        text-align: center;
+                        width: 100%;
                     }
                 }
             }

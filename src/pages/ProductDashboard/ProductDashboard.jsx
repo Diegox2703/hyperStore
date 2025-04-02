@@ -1,14 +1,19 @@
 import { useProducts } from '../../context/productContext'
 import { useEffect } from 'react'
-import DashboardProduct from '../../components/DashboardProduct/DashboardProduct'
-import './Dashboard.css'
+import ProductRow from '../../components/ProductRow/ProductRow'
+import { faAdd } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import './ProductDashboard.css'
 
-export default function Dashboard() {
+export default function ProductDashboard() {
+    const { toggleProductModal } = useProducts()
     const { getProducts, products } = useProducts()
 
     useEffect(() => {
         getProducts()
     }, [])
+
+    if (!products) return <h1>Cargando...</h1>
 
     return (
         <div className="dashboard-container">
@@ -20,22 +25,26 @@ export default function Dashboard() {
                         <th className="dashboard-cell">Imagen</th>
                         <th className="dashboard-cell">Producto</th>
                         <th className="dashboard-cell">Descripcion</th>
+                        <th className="dashboard-cell">Categoria</th>
                         <th className="dashboard-cell">Precio</th>
                         <th className="dashboard-cell">Acciones</th>
                     </tr>
                 </thead>
                 <tbody className="dashboard-body">
                     {
-                        products.length !== 0
-                        ?
                         products.map(product => (
-                            <DashboardProduct key={product.id} productData={product}/>
+                            <ProductRow key={product.id} productData={product}/>
                         ))
-                        :
-                        <h1>No hay productos</h1>
                     }
                 </tbody>
             </table>
+            <section class="add-product-btn-section">
+                <div class="add-product-btn-container">
+                    <button class="add-product-btn" onClick={() => toggleProductModal()}>
+                        <FontAwesomeIcon icon={faAdd}/>
+                    </button>
+                </div>
+            </section>
         </div>
     )
 }

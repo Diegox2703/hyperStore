@@ -2,9 +2,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useProducts } from '../../context/productContext'
 
-export default function DashboardProduct( { productData } ) {
+export default function ProductRow( { productData } ) {
     const { updateProduct, deleteProduct } = useProducts()
-    const { id, product_image, product_name, description, price } = productData
+    const { id, product_image, product_name, description, category, price } = productData
 
     return (
         <tr key={ id } className="dashboard-row">
@@ -21,6 +21,11 @@ export default function DashboardProduct( { productData } ) {
             <td className="dashboard-cell">
                 <div className="product-description">
                     <p className="description">{ description }</p>
+                </div>
+            </td>
+            <td className="dashboard-cell">
+                <div className="product-category">
+                    <p className="category">{ category }</p>
                 </div>
             </td>
             <td className="dashboard-cell">
