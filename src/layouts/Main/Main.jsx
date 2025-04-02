@@ -4,6 +4,7 @@ import Banner from '../../components/Banner/Banner'
 import Footer from '../Footer/Footer'
 import ProductModal from '../ProductModal/ProductModal'
 import './Main.css'
+import UserModal from '../UserModal/UserModal'
 
 export default function Main() {
     return (

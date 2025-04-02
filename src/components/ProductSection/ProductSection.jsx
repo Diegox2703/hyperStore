@@ -15,7 +15,7 @@ export default function ProductSection() {
             <h1 className="title">Productos</h1>
             <section className="products-section">
                 {
-                    products.length !== 0
+                    products
                     ?
                     products.map(product => (
                         <Product key={product.id} productData={product}/>

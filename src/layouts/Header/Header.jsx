@@ -1,14 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAdd, faCartShopping, faCloud, faTruck, faUserAlt } from '@fortawesome/free-solid-svg-icons'
+import { faArrowDown, faCaretDown, faCartShopping, faCloud, faTruck, faUserAlt } from '@fortawesome/free-solid-svg-icons'
 import { faHandshake } from '@fortawesome/free-regular-svg-icons'
 import { NavLink } from 'react-router'
 import { useEffect, useRef } from 'react'
-import { useProducts } from '../../context/productContext'
 import { useCart } from '../../context/cartContext'
 import './Header.css'
 
 export default function Header() {
-    const { toggleProductModal } = useProducts()
     const { count, getCartProducts } = useCart()
     const burgerRef = useRef(null)
 
@@ -58,13 +56,19 @@ export default function Header() {
                         <li className="nav-item" onClick={() => closeSideMenu()}><NavLink to={'/register'}>Registro</NavLink></li>
                         <li className="nav-item" onClick={() => closeSideMenu()}><NavLink to={'/contact'}>Contacto</NavLink></li>
                         <li className="nav-item" onClick={() => closeSideMenu()}><NavLink to={'/about'}>Acerca de nosotros</NavLink></li>
-                        <li className="nav-item" onClick={() => closeSideMenu()}><NavLink to={'/admin'}>Admin productos</NavLink></li>
+                        <button className="admin-button">
+                            <p className="admin-button-text">
+                                Admin
+                                <FontAwesomeIcon icon={faCaretDown}/>
+                            </p>
+                            <ul className="dropdown-menu">
+                                <li className="nav-item" onClick={() => closeSideMenu()}><NavLink to={'/admin/products'}>Admin productos</NavLink></li>
+                                <li className="nav-item" onClick={() => closeSideMenu()}><NavLink to={'/admin/users'}>Admin usuarios</NavLink></li>
+                            </ul>
+                        </button>
                     </ul>
                 </nav>
                 <section className="user-section">
-                    <div className="new-product-btn" title='Crear nuevo producto' onClick={() => toggleProductModal()}>
-                        <FontAwesomeIcon className='new-product-icon' icon={faAdd}/>
-                    </div>
                     <NavLink to={'/cart'} className="cart">
                         <FontAwesomeIcon className='cart-icon' icon={faCartShopping}/>
                         { count > 0 && <span className='item-count'>{ count }</span>}

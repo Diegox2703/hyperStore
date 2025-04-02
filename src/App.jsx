@@ -4,10 +4,10 @@ import Home from './pages/Home/Home'
 import Register from './pages/Register/Register'
 import Contact from './pages/Contact/Contact'
 import About from './pages/About/About'
-import Dashboard from './pages/Dashboard/Dashboard'
+import ProductDashboard from './pages/ProductDashboard/ProductDashboard'
+import UserDashboard from './pages/UserDashboard/UserDashboard'
 import Cart from './pages/Cart/Cart'
 import './App.css'
-import './form.css'
 
 
 function App() {
@@ -19,7 +19,8 @@ function App() {
             <Route path='register' element={ <Register/> }/>
             <Route path='contact' element={ <Contact/> }/>
             <Route path='about' element={ <About/> }/>
-            <Route path='admin' element={ <Dashboard/> }/>
+            <Route path='admin/products' element={ <ProductDashboard/> }/>
+            <Route path='admin/users' element={ <UserDashboard/> }/>
             <Route path='cart' element={ <Cart/> } />
             <Route path='*' element={ <h1>404 Not Found</h1> }/>
           </Route>
