@@ -4,7 +4,7 @@ import FeatureSection from '../../components/FeatureSection/FeatureSection'
 export default function Home() {
     return (
         <>
-            <ProductSection/>
+            <ProductSection title={'Productos'}/>
             <FeatureSection/>
         </>
     )

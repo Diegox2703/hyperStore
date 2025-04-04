@@ -7,6 +7,7 @@ import About from './pages/About/About'
 import ProductDashboard from './pages/ProductDashboard/ProductDashboard'
 import UserDashboard from './pages/UserDashboard/UserDashboard'
 import Cart from './pages/Cart/Cart'
+import ProductDetails from './pages/ProductDetails/ProductDetails'
 import './App.css'
 
 
@@ -22,6 +23,7 @@ function App() {
             <Route path='admin/products' element={ <ProductDashboard/> }/>
             <Route path='admin/users' element={ <UserDashboard/> }/>
             <Route path='cart' element={ <Cart/> } />
+            <Route path='product/:id' element={ <ProductDetails/> }/>
             <Route path='*' element={ <h1>404 Not Found</h1> }/>
           </Route>
         </Routes>

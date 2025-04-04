@@ -6,7 +6,7 @@ const CartContext = createContext()
 export const useCart = () => useContext(CartContext)
 
 function CartProvider({ children }) {
-    const [cart, setCart] = useState([])
+    const [cart, setCart] = useState(null)
     const [count, setCount] = useState(0)
     const [total, setTotal] = useState(0)
 
@@ -14,13 +14,15 @@ function CartProvider({ children }) {
         let contador = 0
         let total = 0
 
-        cart.forEach(item => {
+        cart?.forEach(item => {
             contador += item.quantity
             total += item.quantity * item.price
         })
 
         setCount(contador)
         setTotal(total)
+
+        console.log(cart)
 
     }, [cart])
 

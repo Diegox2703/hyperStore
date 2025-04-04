@@ -28,6 +28,8 @@ export default function Banner() {
 
     useEffect(() => {
         autoPlayCarousel(sliderIdx) 
+
+        return () => clearInterval(intervalRef.current)
     }, [sliderIdx])
 
     return (
