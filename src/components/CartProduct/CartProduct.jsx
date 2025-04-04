@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClose, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { useCart } from '../../context/cartContext'
+import { Link } from 'react-router'
 
 export default function CartProduct({ productData }) {
     const { removeProductFromCart, increaseQuantity, decreaseQuantity } = useCart()
@@ -12,7 +13,7 @@ export default function CartProduct({ productData }) {
                 <img className='image' src={ product_image } alt="product-image" />
             </div>
             <div className="cart-product-details">
-                <div className="cart-product-name">{ product_name }</div>
+                <Link to={`/product/${id}`} className="cart-product-name" title={ product_name }>{ product_name }</Link>
                 <div className="cart-product-quantity">
                     <button className="decrease-btn" onClick={() => decreaseQuantity(productData)}>
                         <FontAwesomeIcon className='decrease-btn-icon' icon={faMinus}/>

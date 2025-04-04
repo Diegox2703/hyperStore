@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useProducts } from '../../context/productContext'
+import { Link } from 'react-router'
 
 export default function ProductRow( { productData } ) {
     const { updateProduct, deleteProduct } = useProducts()
@@ -9,9 +10,9 @@ export default function ProductRow( { productData } ) {
     return (
         <tr key={ id } className="dashboard-row">
             <td className="dashboard-cell">
-                <div className="product-image">
+                <Link to={`/product/${id}`} className="product-image">
                     <img className="image" src={ product_image } alt="image"/>
-                </div>
+                </Link>
             </td>
             <td className="dashboard-cell">
                 <div className="product-name">
