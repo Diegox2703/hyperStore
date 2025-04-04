@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowDown, faCaretDown, faCartShopping, faCloud, faTruck, faUserAlt } from '@fortawesome/free-solid-svg-icons'
+import { faCaretDown, faCartShopping, faCloud, faTruck, faUserAlt } from '@fortawesome/free-solid-svg-icons'
 import { faHandshake } from '@fortawesome/free-regular-svg-icons'
 import { NavLink } from 'react-router'
 import { useEffect, useRef } from 'react'

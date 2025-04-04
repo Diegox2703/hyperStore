@@ -270,7 +270,7 @@
                 }
 
                 .admin-button:has(a.active) {
-                    outline: 1px solid var(--primary-color);
+                    outline: 2px solid var(--primary-color);
 
                     .admin-button-text {
                         background-color: var(--primary-color);

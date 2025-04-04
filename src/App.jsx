@@ -9,6 +9,7 @@ import UserDashboard from './pages/UserDashboard/UserDashboard'
 import Cart from './pages/Cart/Cart'
 import ProductDetails from './pages/ProductDetails/ProductDetails'
 import './App.css'
+import Error from './components/Error/Error'
 
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
             <Route path='admin/users' element={ <UserDashboard/> }/>
             <Route path='cart' element={ <Cart/> } />
             <Route path='product/:id' element={ <ProductDetails/> }/>
-            <Route path='*' element={ <h1>404 Not Found</h1> }/>
+            <Route path='*' element={ <Error message={'No se encontro la pagina'}/> }/>
           </Route>
         </Routes>
     </>
