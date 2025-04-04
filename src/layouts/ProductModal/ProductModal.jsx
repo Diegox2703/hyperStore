@@ -80,8 +80,8 @@ export default function ProductModal() {
                         <div className="input-group">
                             <input {...register('price', {
                                 required: 'Campo vacio',
-                                min: {value: 0.01, message: 'El precio debe ser mayor a 0'}
-                            })} className='input-field' type="number" step={0.01} placeholder='Precio'/>
+                                min: {value: 0.01, message: 'El precio debe ser mayor a 0'},
+                            })} className='input-field' type="number" placeholder='Precio'/>
                             { errors.price && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
                         </div>
                         { errors.price && <span className="error-msg">{errors.price.message}</span> }

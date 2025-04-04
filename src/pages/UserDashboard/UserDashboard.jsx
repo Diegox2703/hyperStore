@@ -1,4 +1,3 @@
-import axios from "axios";
 import UserRow from "../../components/UserRow/UserRow";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -6,9 +5,15 @@ import { modal } from "../../utils/modalUtils";
 import UserModal from "../../layouts/UserModal/UserModal";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+import Loading from "../../components/Loading/Loading";
+import axios from "axios";
+import NoItemsFound from "../../components/NoItemsFound/NoItemsFound";
+import Error from "../../components/Error/Error";
 
 export default function UserDashboard() {
     const [isOpen, setIsOpen] = useState(false)
+    const [error, setError] = useState(false)
     const [editUser, setEditUser] = useState(null)
     const [users, setUsers] = useState(null)
     const URL = 'https://67cf1b76823da0212a81711b.mockapi.io'
@@ -17,12 +22,17 @@ export default function UserDashboard() {
         if (!isOpen) setEditUser(null)
     }, [isOpen])
 
+    useEffect(() => {
+        getUsers()
+    }, [])
+
     async function getUsers() {
         try {
             const { data } = await axios.get(`${URL}/users`)
-            setUsers(data)
+            setUsers(data) 
         } catch (error) {
             console.log(error)
+            setError(true)
         }
     }
 
@@ -66,11 +76,9 @@ export default function UserDashboard() {
         setIsOpen(!isOpen)
     }
 
-    useEffect(() => {
-        getUsers()
-    }, [])
+    if (error) return <Error message={'Error al intentar cargar los usuarios'}/>
 
-    if (!users) return <h1>Cargando...</h1>
+    if (!users) return <Loading icon={faUser}/>
     
     return (
         <>
@@ -111,6 +119,7 @@ export default function UserDashboard() {
                         }
                     </tbody>
                 </table>
+                { users.length === 0 && <NoItemsFound icon={faUser} dashboardStyle={true} message={'No hay usuarios'}/> }
                 <section className="add-product-btn-section">
                     <div className="add-product-btn-container">
                         <button className="add-product-btn" onClick={() => toggleUserModal()}>

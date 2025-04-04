@@ -4,14 +4,14 @@
 
 .dashboard-title {
     width: 100%;
-    min-width: 900px;
+    min-width: 1200px;
     max-width: 1500px;
 }
 
 .products-number {
     font-family: var(--primary-font);
     width: 100%;
-    min-width: 900px;
+    min-width: 1200px;
     max-width: 1500px;
     color: var(--secondary-color);
 }
@@ -22,7 +22,7 @@
     margin: 0px;
     margin: 10px 0;
     width: 100%;
-    min-width: 900px;
+    min-width: 1200px;
     max-width: 1500px;
 
     .add-product-btn-container {
@@ -59,7 +59,7 @@
 .main-dashboard {
     border-collapse: collapse;
     width: 100%;
-    min-width: 900px;
+    min-width: 1200px;
     max-width: 1500px;
     border: 2px solid var(--secondary-color);
     font-family: var(--primary-font);
@@ -102,10 +102,14 @@
 
                 .product-description {
                     max-width: 700px;
-                    max-height: 300px;
+                    max-height: 200px;
                     overflow: auto;
                     scrollbar-width: thin;
                     scrollbar-color: var(--secondary-color) white;
+                }
+
+                .product-category {
+                    text-align: center;
                 }
 
                 .product-price {

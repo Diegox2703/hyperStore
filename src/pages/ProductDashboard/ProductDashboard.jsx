@@ -3,17 +3,23 @@ import { useEffect } from 'react'
 import ProductRow from '../../components/ProductRow/ProductRow'
 import { faAdd } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBox } from '@fortawesome/free-solid-svg-icons'
+import { faBoxOpen } from '@fortawesome/free-solid-svg-icons'
+import Loading from '../../components/Loading/Loading'
+import NoItemsFound from '../../components/NoItemsFound/NoItemsFound'
 import './ProductDashboard.css'
+import Error from '../../components/Error/Error'
 
 export default function ProductDashboard() {
-    const { toggleProductModal } = useProducts()
-    const { getProducts, products } = useProducts()
+    const { toggleProductModal, getProducts, products, error } = useProducts()
 
     useEffect(() => {
         getProducts()
     }, [])
 
-    if (!products) return <h1>Cargando...</h1>
+    if (error) return <Error message={'Error al intentar cargar los productos'}/>
+
+    if (!products) return <Loading icon={faBox}/>
 
     return (
         <div className="dashboard-container">
@@ -38,9 +44,10 @@ export default function ProductDashboard() {
                     }
                 </tbody>
             </table>
-            <section class="add-product-btn-section">
-                <div class="add-product-btn-container">
-                    <button class="add-product-btn" onClick={() => toggleProductModal()}>
+            { products.length === 0 && <NoItemsFound icon={faBoxOpen} dashboardStyle={true} message={'No hay productos'}/> }
+            <section className="add-product-btn-section">
+                <div className="add-product-btn-container">
+                    <button className="add-product-btn" onClick={() => toggleProductModal()}>
                         <FontAwesomeIcon icon={faAdd}/>
                     </button>
                 </div>

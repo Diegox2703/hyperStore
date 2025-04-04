@@ -10,6 +10,9 @@ export const useProducts = () => useContext(ProductContext)
 
 function ProductProvider( {children} ) {
     const [products, setProducts] = useState(null)
+    const [product, setProduct] = useState(null)
+    const [error, setError] = useState(null)
+    const [productError, setProductError] = useState(null)
     const [isOpen, setIsOpen] = useState(false)
     const [editProduct, setEditProduct] = useState(null)
     const { removeFromCartIfDeleted, updateFromCartIfUpdated } = useCart()
@@ -27,6 +30,19 @@ function ProductProvider( {children} ) {
             setProducts(data)
         } catch (error) {
             console.log(error)
+            setError(true)
+        }
+    }
+
+    async function getProduct(id) {
+        setProductError(null)
+        setProduct(null)
+        try {
+            const { data } = await axios.get(`${URL}/products/${id}`)
+            setProduct(data)
+        } catch (error) {
+            console.log(error)
+            setProductError(true)
         }
     }
 
@@ -108,7 +124,11 @@ function ProductProvider( {children} ) {
                 products, 
                 updateProduct, 
                 editProduct,
-                deleteProduct
+                deleteProduct,
+                getProduct,
+                product,
+                error,
+                productError
             } }
         >
             {children}

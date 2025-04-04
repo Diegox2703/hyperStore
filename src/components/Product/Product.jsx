@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartPlus } from '@fortawesome/free-solid-svg-icons'
 import { useCart } from '../../context/cartContext'
+import { Link } from 'react-router'
 
 export default function Product( { productData } ) {
     const { addProductToCart } = useCart()
@@ -15,9 +16,9 @@ export default function Product( { productData } ) {
                 <h2 className="product-title" title={ product_name }>{ product_name }</h2>
             </section>
             <section className="buy-btn-section">
-                <a href="#" className="buy-btn">
+                <Link to={`/product/${id}`} className="buy-btn">
                     <p className="price">${ price }</p>
-                </a>
+                </Link>
             </section>
             <button className="cart-btn" title='Agregar al carrito' onClick={() => addProductToCart(productData)}>
                 <FontAwesomeIcon className='cart-icon' icon={faCartPlus}/>
