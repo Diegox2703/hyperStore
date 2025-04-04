@@ -17,7 +17,6 @@ export default function ProductDetails() {
 
     useEffect(() => {
         getProduct(id)
-        window.scrollTo({ top: 0, behavior: 'instant' })
     }, [id])
 
     if (productError) return <Error message={'No se encontro el producto'}/>

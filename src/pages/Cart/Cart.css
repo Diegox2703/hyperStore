@@ -59,6 +59,7 @@
                 overflow: hidden;
                 font-weight: 600;
                 max-width: 200px;
+                color: var(--secondary-color);
             }
 
             .cart-product-quantity {
