@@ -22,8 +22,6 @@ function CartProvider({ children }) {
         setCount(contador)
         setTotal(total)
 
-        console.log(cart)
-
     }, [cart])
 
     function getCartProducts() {
