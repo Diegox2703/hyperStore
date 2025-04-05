@@ -11,6 +11,12 @@ export default function Banner() {
     let [sliderIdx, setSlidexIdx] = useState(1)  
     let intervalRef = useRef(null)
 
+    useEffect(() => {
+        document.documentElement.style.overflowX = 'hidden'
+    
+        return () => document.documentElement.style.overflow = ''
+    }, [])
+  
     function autoPlayCarousel(index) {
         const sliders = document.querySelectorAll('.slider')
 
