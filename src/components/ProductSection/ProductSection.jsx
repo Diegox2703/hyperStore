@@ -27,7 +27,7 @@ export default function ProductSection({ title }) {
                 <section className="products-section">
                     {
                         products.map(product => (
-                            <Product key={product.id} productData={product}/>
+                            <Product key={product._id} productData={product}/>
                         ))
                     }
                 </section>

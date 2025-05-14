@@ -8,15 +8,15 @@ import './UserModal.css'
 
 export default function UserModal({ toggleUserModal, setUsers, users, editUser }) {
     const { register, handleSubmit, watch, formState: { errors }, setValue, reset } = useForm()
-    const URL = 'https://67cf1b76823da0212a81711b.mockapi.io'
+    const URL = 'http://localhost:3000/api'
     
     useEffect(() => {
         if (editUser) {
-            setValue('user_name', editUser.user_name)
+            setValue('username', editUser.username)
             setValue('email', editUser.email)
             setValue('password', editUser.password)
             setValue('repeat_password', editUser.password)
-            setValue('birthday', editUser.birthday)
+            setValue('birthday', editUser.birthday.split('T')[0])
             setValue('country', editUser.country)
         } else {
             reset()
@@ -24,9 +24,9 @@ export default function UserModal({ toggleUserModal, setUsers, users, editUser }
     }, [editUser])
 
     async function addUser(formData) {
-        const { user_name, email, password, birthday, country } = formData
+        const { username, email, password, birthday, country } = formData
         const newUser = {
-            user_name,
+            username,
             email,
             password, 
             birthday,
@@ -35,9 +35,10 @@ export default function UserModal({ toggleUserModal, setUsers, users, editUser }
 
         if (editUser) {
             try {
-                const { data } = await axios.put(`${URL}/users/${editUser.id}`, newUser)
-                const updatedUsers = users.map(user => user.id === data.id ? {...data} : user)
+                const { data } = await axios.put(`${URL}/users/${editUser._id}`, newUser)
+                const updatedUsers = users.map(user => user._id === data.updatedUser._id ? {...data.updatedUser} : user)
 
+                console.log(updatedUsers)
                 setUsers(updatedUsers)
                 modal('success', 'Usuario actualizado con exito!')
             } catch (error) {
@@ -46,12 +47,13 @@ export default function UserModal({ toggleUserModal, setUsers, users, editUser }
             }
         } else {            
             try {
-                const { data } = await axios.post(`${URL}/users`, newUser)
+                const { data } = await axios.post(`${URL}/register`, newUser)
 
-                setUsers([...users, data])
+                setUsers([...users, data.newUser])
                 modal('success', 'Usuario subido con con exito!')
             } catch (error) {
                 console.log(error)
+                if (error.status === 400) return modal('error', 'Oops...', error.response.data.message )
                 modal('error', 'Oops...', 'Parece que algo salio mal, intentelo mas tarde')
             }
         }
@@ -72,14 +74,14 @@ export default function UserModal({ toggleUserModal, setUsers, users, editUser }
                     </div>
                 </div>
                 <div className="input-group">
-                    <input {...register('user_name', {
+                    <input {...register('username', {
                         required: 'Campo vacio',
                         minLength: {value: 3, message: 'Nombre debe tener minimo 3 caracteres'},
                         maxLength: {value: 50, message: 'Nombre debe tener maximo 50 caracteres'}
                     })} className="input-field" id="name" type="text" placeholder="Nombre Completo" autoFocus/>
-                    { errors.user_name && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
+                    { errors.username && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
                 </div>
-                { errors.user_name && <span className="error-msg">{errors.user_name.message}</span> }
+                { errors.username && <span className="error-msg">{errors.username.message}</span> }
                 <div className="input-group">
                     <input {...register('email', {
                         required: 'Campo vacio',
@@ -91,24 +93,29 @@ export default function UserModal({ toggleUserModal, setUsers, users, editUser }
                     { errors.email && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
                 </div>
                 { errors.email && <span className="error-msg">{errors.email.message}</span> }
-                <div className="input-group">
-                    <input {...register('password', {
-                        required: 'Campo vacio',
-                        minLength: {value: 8, message: 'Contraseña debe tener minimo 8 caracteres'},
-                        maxLength: {value: 50, message: 'Contraseña debe tener maximo 50 caracteres'}
-                    })} className="input-field" id="password" type="password" placeholder="Contraseña" autoComplete="off"/>
-                    { errors.password && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
-                </div>
-                { errors.password && <span className="error-msg">{errors.password.message}</span> }
-                <div className="input-group">
-                    <input {...register('repeat_password', {
-                        required: 'Campo vacio',
-                        validate: (value) => 
-                            value === watch('password') || 'Las contraseñas no coinciden'
-                    })} className="input-field" id="repeat-password" type="password" placeholder="Repetir Contraseña" autoComplete="off"/>
-                    { errors.repeat_password && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
-                </div>
-                { errors.repeat_password && <span className="error-msg">{errors.repeat_password.message}</span> }
+                {
+                    !editUser &&
+                    <>
+                        <div className="input-group">
+                            <input {...register('password', {
+                                required: 'Campo vacio',
+                                minLength: {value: 8, message: 'Contraseña debe tener minimo 8 caracteres'},
+                                maxLength: {value: 50, message: 'Contraseña debe tener maximo 50 caracteres'}
+                            })} className="input-field" id="password" type="password" placeholder="Contraseña" autoComplete="off"/>
+                            { errors.password && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
+                        </div>
+                        { errors.password && <span className="error-msg">{errors.password.message}</span> }
+                        <div className="input-group">
+                            <input {...register('repeat_password', {
+                                required: 'Campo vacio',
+                                validate: (value) => 
+                                    value === watch('password') || 'Las contraseñas no coinciden'
+                            })} className="input-field" id="repeat-password" type="password" placeholder="Repetir Contraseña" autoComplete="off"/>
+                            { errors.repeat_password && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
+                        </div>
+                        { errors.repeat_password && <span className="error-msg">{errors.repeat_password.message}</span> }
+                    </>
+                }
                 <div className="input-label-container">
                     <label htmlFor="birthdate" className="input-label">Fecha de nacimiento</label>
                 </div>

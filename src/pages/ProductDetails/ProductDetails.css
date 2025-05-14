@@ -35,6 +35,14 @@
             align-items: center;
             justify-content: space-between;
 
+            .product-category {
+                color: inherit;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
             .bookmark-btn {
                 font-size: 20px;
             }

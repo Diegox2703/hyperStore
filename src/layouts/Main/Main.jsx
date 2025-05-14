@@ -1,8 +1,10 @@
-import { Outlet, Route, Routes, useLocation } from 'react-router'
+import { Outlet, useLocation } from 'react-router'
 import Header from '../Header/Header'
 import Banner from '../../components/Banner/Banner'
 import Footer from '../Footer/Footer'
 import ProductModal from '../ProductModal/ProductModal'
+import Search from '../Search/Search'
+import CategoryModal from '../CategoryModal/CategoryModal'
 import './Main.css'
 
 export default function Main() {
@@ -15,6 +17,8 @@ export default function Main() {
             <Header/>
             { pathname === '/' && <Banner/> }
             <ProductModal/>
+            <CategoryModal/>
+            <Search/>
             <main className="main">
                 <div className="main-content">
                     <Outlet/>

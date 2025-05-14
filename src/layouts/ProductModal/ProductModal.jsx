@@ -2,26 +2,53 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClose, faWarning } from '@fortawesome/free-solid-svg-icons'
 import { useForm } from 'react-hook-form'
 import { useProducts } from '../../context/productContext'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { useCategory } from '../../context/categoryContext'
 import './ProductModal.css'
 
 export default function ProductModal() {
+    const [reloadSubcategory, setReloadSubcategory] = useState(false)
     const { isOpen, toggleProductModal, addProduct, editProduct } = useProducts()
+    const { 
+        getCategories, 
+        categories, 
+        handleOnChange, 
+        selectedCategory, 
+        subcategoryOnChange,
+        setSelectedCategory,
+        setSelectedSubcategory,
+        DEFAULT_CATEGORY
+    } = useCategory()
     const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm()
     
     useEffect(() => {
-        if (!isOpen) reset()
+        if (!isOpen) return reset()
+        getCategories()
     }, [isOpen])
 
     useEffect(() => {
         if (editProduct) {
+            const categoryFound = categories.find(category => category._id === editProduct.category?._id)
+
+            setSelectedCategory(categoryFound)
+            setSelectedSubcategory(editProduct.subcategory?._id)
+            setReloadSubcategory(true)
+            
             setValue('product_name', editProduct.product_name)
             setValue('description', editProduct.description)
-            setValue('category', editProduct.category)
+            setValue('category', editProduct.category?.category)
+            setValue('subcategory', editProduct.subcategory?.subcategory)
             setValue('product_image', editProduct.product_image)
             setValue('price', editProduct.price)
+            setValue('stock', editProduct.stock)
         }
-    }, [editProduct])
+
+        return () => {
+            setSelectedCategory(DEFAULT_CATEGORY)
+            setReloadSubcategory(false)
+        } 
+    }, [editProduct, reloadSubcategory])
+
 
     if (!isOpen) return;
 
@@ -55,28 +82,47 @@ export default function ProductModal() {
                             { errors.description && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
                         </div>
                         { errors.description && <span className="error-msg">{errors.description.message}</span> }
+                        <div className="input-label-container">
+                            <label htmlFor="category" className="input-label">Categorias</label>
+                        </div>
                         <div className="input-group">
-                            <select {...register('category', {
-                                required: 'Campo vacio'
-                            })} className='input-field'>
-                                <option value="">...</option>
-                                <option value="Tecnologia">Tecnologia</option>
-                                <option value="Ropa">Ropa</option>
-                                <option value="Deportes">Deportes</option>
-                                <option value="Electrodomesticos">Electrodomesticos</option>
-                                <option value="Muebles">Muebles</option>
-                                <option value="Arte">Arte</option>
-                            </select>
-                            { errors.category && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
+                                <select {...register('category', {
+                                    required: 'Campo vacio'
+                                })} className='input-field' onChange={handleOnChange}>
+                                    <option value="">...</option>
+                                    {
+                                        categories.map(category => (
+                                            <option data-id={ category._id } key={ category._id } defaultValue={ category.category }>{ category.category }</option>
+                                        ))
+                                    }
+                                </select>
+                                { errors.category && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
                         </div>
                         { errors.category && <span className="error-msg">{errors.category.message}</span> }
-                        <div className="input-group">
-                            <input {...register('product_image', {
-                                required: 'Campo vacio'
-                            })} className='input-field' type="url" placeholder='URL de la imagen'/>
-                            { errors.product_image && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
+                        <div className="input-label-container">
+                            <label htmlFor="category" className="input-label">Subcategorias</label>
                         </div>
-                        { errors.product_image && <span className="error-msg">{errors.product_image.message}</span> }
+                        <div className="input-group">
+                            <select {...register('subcategory', {
+                                required: 'Campo vacio'
+                            })} className='input-field' onChange={subcategoryOnChange}>
+                                <option value="">...</option>
+                                {
+                                    selectedCategory?.subcategories?.map(subcategory => (
+                                        <option data-id={ subcategory._id } key={ subcategory._id } defaultValue={ subcategory.subcategory }>{ subcategory.subcategory }</option>
+                                    ))
+                                }
+                            </select>
+                            { errors.subcategory && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
+                        </div>
+                        { errors.subcategory && <span className="error-msg">{errors.subcategory.message}</span> }
+                        <div className="input-group">
+                            <input {...register('image', {
+                                required: 'Campo vacio'
+                            })} className='input-field' type="file" accept='image/*'/>
+                            { errors.image && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
+                        </div>
+                        { errors.image && <span className="error-msg">{errors.image.message}</span> }
                         <div className="input-group">
                             <input {...register('price', {
                                 required: 'Campo vacio',
@@ -85,6 +131,14 @@ export default function ProductModal() {
                             { errors.price && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
                         </div>
                         { errors.price && <span className="error-msg">{errors.price.message}</span> }
+                        <div className="input-group">
+                            <input {...register('stock', {
+                                required: 'Campo vacio',
+                                min: {value: 0.01, message: 'El stock debe ser mayor a 0'},
+                            })} className='input-field' type="number" placeholder='Stock'/>
+                            { errors.stock && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
+                        </div>
+                        { errors.stock && <span className="error-msg">{errors.stock.message}</span> }
                         <div className="new-product-btn-container">
                             <button className="new-product-btn">{ editProduct ? 'Actualizar' : 'Subir' }</button>
                         </div>

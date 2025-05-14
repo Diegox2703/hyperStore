@@ -3,6 +3,7 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 import { modal } from "../utils/modalUtils.js";
 import { useCart } from "./cartContext";
+import { useCategory } from "./categoryContext.jsx";
 
 const ProductContext = createContext()
 
@@ -13,22 +14,38 @@ function ProductProvider( {children} ) {
     const [product, setProduct] = useState(null)
     const [error, setError] = useState(null)
     const [productError, setProductError] = useState(null)
+    const [searchResult, setSearchResult] = useState([])
+    const [searchError, setSearchError] = useState(false)
+    const [isSearchOpen, setIsSearchOpen] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
     const [editProduct, setEditProduct] = useState(null)
+    const { selectedCategory, selectedSubCategory } = useCategory()
     const { removeFromCartIfDeleted, updateFromCartIfUpdated } = useCart()
 
-    const URL = 'https://67cf1b76823da0212a81711b.mockapi.io'
+    const URL = 'http://localhost:3000/api'
 
     function toggleProductModal() {
         setIsOpen(!isOpen)
         setEditProduct(null)
     }
 
-    async function getProducts() {
+    async function searchProduct(product) {
         try {
-            const { data } = await axios.get(`${URL}/products`)
-            setProducts(data)
+            const { data } = await axios.get(`${URL}/products?product=${product}`)
+            setSearchResult(data.products)
         } catch (error) {
+            if (error.status === 404) return setProducts([])
+            console.log(error)
+            setSearchError(true)
+        }
+    }
+
+    async function getProducts(product = '') {
+        try {
+            const { data } = await axios.get(`${URL}/products?product=${product}`)
+            setProducts(data.products)
+        } catch (error) {
+            if (error.status === 404) return setProducts([])
             console.log(error)
             setError(true)
         }
@@ -39,33 +56,39 @@ function ProductProvider( {children} ) {
         setProduct(null)
         try {
             const { data } = await axios.get(`${URL}/products/${id}`)
-            setProduct(data)
+            setProduct(data.product)
         } catch (error) {
             console.log(error)
             setProductError(true)
         }
     }
 
-    async function addProduct(formData) {
-        formData.price = parseFloat(formData.price)
+    async function addProduct(data) {
+        data.price = parseFloat(data.price)
+
+        const formData = new FormData()
+
+        formData.append('product_name', data.product_name)
+        formData.append('category', selectedCategory._id)
+        formData.append('subcategory', selectedSubCategory)
+        formData.append('price', data.price)
+        formData.append('stock', data.stock)
+        formData.append('description', data.description)
+        formData.append('image', data.image[0])
 
         try {
             if (editProduct) {
-                const { data } = await axios.put(`${URL}/products/${editProduct.id}`, formData)
-                const updatedProducts = products.map(product => product.id === editProduct.id ? {...data} : product)
+                console.log('aca se ejecuto')
+                const { data } = await axios.put(`${URL}/products/${editProduct._id}`, formData)
+                const updatedProducts = products.map(product => product._id === editProduct._id ? {...data.updatedProduct} : product)
                 
-                updateFromCartIfUpdated(data)
+                updateFromCartIfUpdated(data.updatedProduct)
                 setProducts(updatedProducts)
                 setEditProduct(null)
                 modal('success', '¡Producto actualizado con exito!')
             } else {
-                const newProduct = {
-                    id: crypto.randomUUID(),
-                    ...formData
-                }
-    
-                const { data } = await axios.post(`${URL}/products`, newProduct)
-                setProducts([...products, data])
+                const { data } = await axios.post(`${URL}/products`, formData)
+                setProducts([...products, data.newProduct])
                 
                 modal('success', '¡Producto subido con exito!')
             }
@@ -101,7 +124,7 @@ function ProductProvider( {children} ) {
                 if (result.isConfirmed) {
                   await axios.delete(`${URL}/products/${id}`)
     
-                  const newProducts = products.filter(product => product.id !== id)
+                  const newProducts = products.filter(product => product._id !== id)
                   removeFromCartIfDeleted(id)
                   setProducts(newProducts)
                     
@@ -112,6 +135,10 @@ function ProductProvider( {children} ) {
                 modal('error', 'Oops...', 'Parece que algo salio mal, intentelo mas tarde')
             }
           });
+    }
+
+    function toggleSearch() {
+        setIsSearchOpen(!isSearchOpen)
     }
 
     return (
@@ -128,7 +155,12 @@ function ProductProvider( {children} ) {
                 getProduct,
                 product,
                 error,
-                productError
+                productError,
+                searchResult,
+                searchProduct,
+                searchError,
+                toggleSearch,
+                isSearchOpen
             } }
         >
             {children}

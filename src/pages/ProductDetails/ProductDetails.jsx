@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark } from '@fortawesome/free-regular-svg-icons'
 import { faBox, faStar } from '@fortawesome/free-solid-svg-icons'
 import { useProducts } from '../../context/productContext'
-import { useParams } from 'react-router'
+import { Link, useParams } from 'react-router'
 import { useEffect } from 'react'
 import { useCart } from '../../context/cartContext'
 import ProductSection from '../../components/ProductSection/ProductSection'
@@ -27,14 +27,15 @@ export default function ProductDetails() {
         <>
             <div className="product-details-container">
                 <section className="product-image-section">
-                    <img className='product-image' src={ product.product_image } alt="product-image" />
+                    <img className='product-image' src={ `http://localhost:3000/${product.image}` } alt="product-image" />
                 </section>
                 <section className="product-details-section">
                     <div className="product-category-container">
-                        <span className="product-category">{ product.category }</span>
-                        <div className="bookmark-btn">
-                            <FontAwesomeIcon icon={faBookmark}/>
-                        </div>
+                        {
+                            product.subcategory?.subcategory && product.category?.category
+                            &&
+                            <Link to={`/categories/${product.subcategory.subcategory}`} className="product-category">{ `${product.category.category}/${product.subcategory.subcategory}` }</Link>
+                        }
                     </div>
                     <div className="product-name-container">
                         <h1 className="product-name">{ product.product_name }</h1>

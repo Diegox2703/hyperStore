@@ -5,15 +5,15 @@ import { Link } from 'react-router'
 
 export default function CartProduct({ productData }) {
     const { removeProductFromCart, increaseQuantity, decreaseQuantity } = useCart()
-    const { id, product_name, product_image, total_product, quantity } = productData
+    const { _id, product_name, image, total_product, quantity } = productData
 
     return (
-        <div key={ id } className="cart-product">
+        <div key={ _id } className="cart-product">
             <div className="cart-product-image">
-                <img className='image' src={ product_image } alt="product-image" />
+                <img className='image' src={ `http://localhost:3000/${image}` } alt="product-image" />
             </div>
             <div className="cart-product-details">
-                <Link to={`/product/${id}`} className="cart-product-name" title={ product_name }>{ product_name }</Link>
+                <Link to={`/product/${_id}`} className="cart-product-name" title={ product_name }>{ product_name }</Link>
                 <div className="cart-product-quantity">
                     <button className="decrease-btn" onClick={() => decreaseQuantity(productData)}>
                         <FontAwesomeIcon className='decrease-btn-icon' icon={faMinus}/>
@@ -25,7 +25,7 @@ export default function CartProduct({ productData }) {
                 </div>
             </div>
             <div className="cart-product-actions">
-                <button className="remove-btn" onClick={() => removeProductFromCart(id)}>
+                <button className="remove-btn" onClick={() => removeProductFromCart(_id)}>
                     <FontAwesomeIcon className='remove-btn-icon' icon={faClose}/>
                 </button>
                 <div className="cart-product-total">

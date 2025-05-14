@@ -1,20 +1,23 @@
 import { faWarning } from "@fortawesome/free-solid-svg-icons/faWarning"
+import { Link } from 'react-router'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import axios from "axios"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router"
 import { modal } from "../../utils/modalUtils"
+import { faHandshake } from "@fortawesome/free-solid-svg-icons"
+import banner from '../../images/register-banner.png'
 
 export default function Register() {
     const { register, handleSubmit, watch, formState: { errors } } = useForm()
-    const URL = 'https://67cf1b76823da0212a81711b.mockapi.io'
     const navigate = useNavigate();
+    const URL = 'http://localhost:3000/api'
 
     async function addUser(formData) {
-        const { user_name, email, password, birthday, country } = formData
+        const { username, email, password, birthday, country } = formData
 
         const newUser = {
-            user_name,
+            username,
             email,
             password, 
             birthday,
@@ -22,28 +25,40 @@ export default function Register() {
         }
         
         try {
-            const { data } = await axios.post(`${URL}/users`, newUser)
-            console.log(data)
+            await axios.post(`${URL}/register`, newUser)
             navigate('/')
         } catch (error) {
             console.log(error)
-            modal('error', 'Oops...', 'Parece que algo salio mal, intentelo mas tarde')
+            modal(
+                'error',
+                'Oops...', 
+                error.status === 400 ? error.response.data.message : 'Parece que algo salio mal, intentelo mas tarde'
+            )
         }
     }
     
     return (
-        <div className="form-container">
-            <form className="form register-form" onSubmit={handleSubmit(addUser)} noValidate>
-                <h1 className="form-title">Registro</h1>
+        <div className="register-container">
+            <div className="banner-container">
+                <img className="banner" src={ banner } alt="banner" />
+            </div>
+            <form className="register-form" onSubmit={handleSubmit(addUser)} noValidate>
+                <div className="website-logo">
+                    <div className="icon-container">
+                        <FontAwesomeIcon className="icon" icon={faHandshake}/>
+                    </div>
+                    <h1 className="name">HyperStore</h1>
+                </div>
+                <h2 className="register-title">Crea tu cuenta</h2>
                 <div className="input-group">
-                    <input {...register('user_name', {
+                    <input {...register('username', {
                         required: 'Campo vacio',
                         minLength: {value: 3, message: 'Nombre debe tener minimo 3 caracteres'},
                         maxLength: {value: 50, message: 'Nombre debe tener maximo 50 caracteres'}
                     })} className="input-field" id="name" type="text" placeholder="Nombre Completo" autoFocus/>
-                    { errors.user_name && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
+                    { errors.username && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
                 </div>
-                { errors.user_name && <span className="error-msg">{errors.user_name.message}</span> }
+                { errors.username && <span className="error-msg">{errors.username.message}</span> }
                 <div className="input-group">
                     <input {...register('email', {
                         required: 'Campo vacio',
@@ -91,8 +106,9 @@ export default function Register() {
                 </div>
                 { errors.country && <span className="error-msg">{errors.country.message}</span> }
                 <div className="form-btn-container">
-                    <button className="form-btn">Registrarse</button>
+                    <button className="form-btn">Registrate</button> 
                 </div>
+                <h3>¿Ya tienes cuenta? <Link to={'/login'}>Inicia sesion</Link></h3>
             </form>
         </div>
     )

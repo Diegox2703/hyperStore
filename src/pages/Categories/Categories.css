@@ -1,0 +1,61 @@
+.categories-banner-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+
+    .categories-banner {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.5);
+    }
+
+    .categories-banner-title {
+        margin: 0;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 50px;
+        font-family: var(--primary-font);
+    }
+
+}
+
+.category-content {
+    .category-title {
+        margin-bottom: 10px;
+    }
+
+    .categories {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 10px;
+    
+        .category {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--secondary-color);
+            border-radius: 10px;
+            background-color: var(--secondary-color);
+            height: 200px;
+            color: var(--primary-color);
+            overflow: hidden;
+            cursor: pointer;
+            transition: background-color .2s ease-in-out;
+    
+            .category-title {
+                font-size: 30px;
+                margin: 0;
+    
+                font-family: var(--primary-font);
+            }
+    
+            &:hover {
+                background-color: rgb(17, 113, 145);
+            }
+        }
+    }
+}

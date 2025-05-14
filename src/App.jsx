@@ -8,21 +8,36 @@ import ProductDashboard from './pages/ProductDashboard/ProductDashboard'
 import UserDashboard from './pages/UserDashboard/UserDashboard'
 import Cart from './pages/Cart/Cart'
 import ProductDetails from './pages/ProductDetails/ProductDetails'
-import './App.css'
 import Error from './components/Error/Error'
+import Login from './pages/Login/Login'
+import AdminGuard from './services/guard/AdminGuard'
+import Categories from './pages/Categories/Categories'
+import './App.css'
+import Products from './pages/Products/Products'
 
 
 function App() {
   return (
     <>
         <Routes>
+          <Route path='/login' element={ <Login/> }/>
+          <Route path='/register' element={ <Register/> }/>
           <Route path='/' element={ <Main/> }>
             <Route index element={ <Home/> }/>
-            <Route path='register' element={ <Register/> }/>
+            <Route path='categories' element={ <Categories/> }/>
+            <Route path='categories/:subcategory' element={ <Products/> }/>
             <Route path='contact' element={ <Contact/> }/>
             <Route path='about' element={ <About/> }/>
-            <Route path='admin/products' element={ <ProductDashboard/> }/>
-            <Route path='admin/users' element={ <UserDashboard/> }/>
+            <Route path='admin/products' element={
+              <AdminGuard>
+                <ProductDashboard/>
+              </AdminGuard>
+            }/>
+            <Route path='admin/users' element={ 
+              <AdminGuard>
+                <UserDashboard/>
+              </AdminGuard>
+             }/>
             <Route path='cart' element={ <Cart/> } />
             <Route path='product/:id' element={ <ProductDetails/> }/>
             <Route path='*' element={ <Error message={'No se encontro la pagina'}/> }/>

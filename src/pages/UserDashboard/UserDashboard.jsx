@@ -10,13 +10,14 @@ import Loading from "../../components/Loading/Loading";
 import axios from "axios";
 import NoItemsFound from "../../components/NoItemsFound/NoItemsFound";
 import Error from "../../components/Error/Error";
+import SearchBar from "../../components/SearchBar/SearchBar";
 
 export default function UserDashboard() {
     const [isOpen, setIsOpen] = useState(false)
     const [error, setError] = useState(false)
     const [editUser, setEditUser] = useState(null)
     const [users, setUsers] = useState(null)
-    const URL = 'https://67cf1b76823da0212a81711b.mockapi.io'
+    const URL = 'http://localhost:3000/api'
 
     useEffect(() => {
         if (!isOpen) setEditUser(null)
@@ -26,12 +27,14 @@ export default function UserDashboard() {
         getUsers()
     }, [])
 
-    async function getUsers() {
+
+    async function getUsers(user = '') {
         try {
-            const { data } = await axios.get(`${URL}/users`)
-            setUsers(data) 
+            const { data } = await axios.get(`${URL}/users?username=${user}`)
+            console.log(data)
+            setUsers(data.users) 
         } catch (error) {
-            console.log(error)
+            if (error.status === 404) return setUsers([])
             setError(true)
         }
     }
@@ -55,7 +58,7 @@ export default function UserDashboard() {
                 if (result.isConfirmed) {
                   await axios.delete(`${URL}/users/${id}`)
     
-                  const newUsers = users.filter(user => user.id !== id)
+                  const newUsers = users.filter(user => user._id !== id)
                   setUsers(newUsers)
                     
                   modal('success', 'Eliminado', 'El usuario fue eliminado con exito')
@@ -96,6 +99,7 @@ export default function UserDashboard() {
             <div className="dashboard-container">
                 <h1 className="title dashboard-title">Administrador de usuarios</h1>
                 <p className="products-number">Hay un total de { users.length } usuarios.</p>
+                <SearchBar placeholder={'Buscar usuario'} searchFn={getUsers}/>
                 <table className="main-dashboard">
                     <thead className="dashboard-header">
                         <tr className="dashboard-row">
@@ -110,7 +114,7 @@ export default function UserDashboard() {
                         {
                             users.map(user => (
                                 <UserRow 
-                                    key={ user.id } 
+                                    key={ user._id } 
                                     userData={ user }
                                     deleteUser={ deleteUser }
                                     updateUser={ updateUser }

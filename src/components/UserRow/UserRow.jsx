@@ -2,13 +2,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 export default function UserRow({ userData, deleteUser, updateUser }) {
-    const { id, user_name, email, birthday, country } = userData
+    const { _id, username, email, birthday, country } = userData
 
     return (
-        <tr key={ id } className="dashboard-row">
+        <tr key={ _id } className="dashboard-row">
             <td className="dashboard-cell">
                 <div className="user-name">
-                    <p className="name">{ user_name }</p>
+                    <p className="name">{ username }</p>
                 </div>
             </td>
             <td className="dashboard-cell">
@@ -18,7 +18,7 @@ export default function UserRow({ userData, deleteUser, updateUser }) {
             </td>
             <td className="dashboard-cell">
                 <div className="user-birthday">
-                    <p className="birthday">{ birthday }</p>
+                    <p className="birthday">{ birthday.split('T')[0] }</p>
                 </div>
             </td>
             <td className="dashboard-cell">
@@ -34,7 +34,7 @@ export default function UserRow({ userData, deleteUser, updateUser }) {
                         </button>
                     </div>
                     <div className="delete-button-container">
-                        <button className="delete-button" onClick={() => deleteUser(id)}>
+                        <button className="delete-button" onClick={() => deleteUser(_id)}>
                             <FontAwesomeIcon icon={faTrash}/>
                         </button>
                     </div>

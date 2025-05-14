@@ -38,6 +38,17 @@ body {
     min-height: 100vh;
 }
 
+.products-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 10px;
+}
+
+.category-section {
+  font-family: var(--primary-font);
+  color: var(--secondary-color);
+}
+
 .custom-popup {
   font-family: var(--primary-font);
 }

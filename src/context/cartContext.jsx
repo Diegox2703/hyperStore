@@ -50,10 +50,10 @@ function CartProvider({ children }) {
         product.total_product = product.price
 
         if (cartProductsInLocalStorage) {
-            const isInCart = cartProductsInLocalStorage.find(cart => cart.id === product.id)
+            const isInCart = cartProductsInLocalStorage.find(cart => cart._id === product._id)
                         
             if (isInCart) {
-                let cartProducts = cartProductsInLocalStorage.filter(cart => cart.id !== product.id) 
+                let cartProducts = cartProductsInLocalStorage.filter(cart => cart._id !== product._id) 
                 localStorage.setItem('cartProducts', JSON.stringify(cartProducts))
                 setCart(cartProducts)
                 cartModal('Producto eliminado del carrito')
@@ -71,7 +71,7 @@ function CartProvider({ children }) {
 
     function removeProductFromCart(id) {
         const cartProducts = JSON.parse(localStorage.getItem('cartProducts'))
-        const newProducts = cartProducts.filter(cartProduct => cartProduct.id !== id)
+        const newProducts = cartProducts.filter(cartProduct => cartProduct._id !== id)
 
         localStorage.setItem('cartProducts', JSON.stringify(newProducts))
         setCart(newProducts)
@@ -81,7 +81,7 @@ function CartProvider({ children }) {
     function increaseQuantity(product) {
         product.quantity += 1
         product.total_product = product.quantity * product.price
-        const updatedProducts = cart.map(item => item.id === product.id ? {...product} : item)
+        const updatedProducts = cart.map(item => item._id === product._id ? {...product} : item)
 
         localStorage.setItem('cartProducts', JSON.stringify(updatedProducts))
         setCart(updatedProducts)
@@ -91,7 +91,7 @@ function CartProvider({ children }) {
         if (product.quantity > 1) {
             product.quantity -= 1
             product.total_product = product.quantity * product.price
-            const updatedProducts = cart.map(item => item.id === product.id ? {...product} : item)
+            const updatedProducts = cart.map(item => item._id === product._id ? {...product} : item)
     
             localStorage.setItem('cartProducts', JSON.stringify(updatedProducts))
             setCart(updatedProducts)
@@ -100,7 +100,7 @@ function CartProvider({ children }) {
 
     function removeFromCartIfDeleted(id) {
         const cartProducts = JSON.parse(localStorage.getItem('cartProducts')) || []
-        const newProducts = cartProducts.filter(product => product.id !== id)
+        const newProducts = cartProducts.filter(product => product._id !== id)
 
         localStorage.setItem('cartProducts', JSON.stringify(newProducts))
         setCart(newProducts)
@@ -108,7 +108,7 @@ function CartProvider({ children }) {
 
     function updateFromCartIfUpdated(product) {
         const cartProducts = JSON.parse(localStorage.getItem('cartProducts')) || []
-        const productInCart = cartProducts.find(item => item.id === product.id)
+        const productInCart = cartProducts.find(item => item._id === product._id)
 
         if (productInCart) {
             const updatedProduct = {
@@ -116,7 +116,7 @@ function CartProvider({ children }) {
                 quantity: productInCart.quantity,
                 total_product: productInCart.quantity * product.price
             }
-            const updatedProducts = cartProducts.map(item => item.id === product.id ? {...updatedProduct} : item)
+            const updatedProducts = cartProducts.map(item => item._id === product._id ? {...updatedProduct} : item)
     
             localStorage.setItem('cartProducts', JSON.stringify(updatedProducts))
             setCart(updatedProducts)

@@ -5,13 +5,13 @@ import { Link } from 'react-router'
 
 export default function ProductRow( { productData } ) {
     const { updateProduct, deleteProduct } = useProducts()
-    const { id, product_image, product_name, description, category, price } = productData
+    const { _id, image, product_name, description, category, subcategory, price } = productData
 
     return (
-        <tr key={ id } className="dashboard-row">
+        <tr key={ _id } className="dashboard-row">
             <td className="dashboard-cell">
-                <Link to={`/product/${id}`} className="product-image">
-                    <img className="image" src={ product_image } alt="image"/>
+                <Link to={`/product/${_id}`} className="product-image">
+                    <img className="image" src={ `http://localhost:3000/${image}` } alt="image"/>
                 </Link>
             </td>
             <td className="dashboard-cell">
@@ -26,7 +26,13 @@ export default function ProductRow( { productData } ) {
             </td>
             <td className="dashboard-cell">
                 <div className="product-category">
-                    <p className="category">{ category }</p>
+                    {
+                        subcategory?.subcategory && category?.category
+                        ?
+                        <Link to={`/categories/${subcategory.subcategory}`} className="category">{ `${category.category}/${subcategory.subcategory}` }</Link>
+                        :
+                        <p>No hay categoria</p>
+                    }
                 </div>
             </td>
             <td className="dashboard-cell">
@@ -42,7 +48,7 @@ export default function ProductRow( { productData } ) {
                         </button>
                     </div>
                     <div className="delete-button-container">
-                        <button className="delete-button" onClick={() => deleteProduct(id)}>
+                        <button className="delete-button" onClick={() => deleteProduct(_id)}>
                             <FontAwesomeIcon icon={faTrash}/>
                         </button>
                     </div>

@@ -25,7 +25,7 @@ export default function Cart() {
                     <section className="cart-products-section">
                         {
                             cart.map(product => (
-                                <CartProduct key={ product.id } productData={product}/>
+                                <CartProduct key={ product._id } productData={product}/>
                             ))
                         }
                     </section>
