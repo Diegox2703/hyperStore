@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown, faCartShopping, faCloud, faSearch, faTruck, faUserAlt } from '@fortawesome/free-solid-svg-icons'
 import { faHandshake } from '@fortawesome/free-regular-svg-icons'
-import { NavLink } from 'react-router'
+import { Link, NavLink } from 'react-router'
 import { useEffect, useRef } from 'react'
 import { useCart } from '../../context/cartContext'
 import { useAuth } from '../../context/authContext'
@@ -70,6 +70,10 @@ export default function Header() {
                                 <ul className="dropdown-menu">
                                     <li className="menu-opt" onClick={() => closeSideMenu()}><NavLink to={'/admin/products'}>Admin productos</NavLink></li>
                                     <li className="menu-opt" onClick={() => closeSideMenu()}><NavLink to={'/admin/users'}>Admin usuarios</NavLink></li>
+                                    {
+                                        user.role === 'admin' &&
+                                        <li className="menu-opt" onClick={() => closeSideMenu()}><NavLink to={'/orders'}>Ordenes</NavLink></li>
+                                    }
                                 </ul>
                             </button>
                         }
@@ -90,6 +94,13 @@ export default function Header() {
                             <button className="user">
                                 <FontAwesomeIcon className='user-icon' icon={faUserAlt}/>
                                 <ul className="dropdown-menu">
+                                    {
+                                        user.role === 'user'
+                                        &&
+                                        <li className="menu-opt">
+                                            <Link to={'/orders'}>Mis compras</Link>
+                                        </li>
+                                    }
                                     <li className='menu-opt'>
                                         <div onClick={() => logOut()}>Cerrar sesion</div>
                                     </li>

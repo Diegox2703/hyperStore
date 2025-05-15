@@ -5,6 +5,7 @@ import ProductProvider from './context/productContext.jsx'
 import AuthProvider from './context/authContext.jsx'
 import CartProvider from './context/cartContext.jsx'
 import CategoryProvider from './context/categoryContext.jsx'
+import OrderProvider from './context/orderContext.jsx'
 import App from './App.jsx'
 import './index.css'
 import './css/form.css'
@@ -14,13 +15,15 @@ createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <AuthProvider>
       <CartProvider>
-        <CategoryProvider>
-          <ProductProvider>
-              <StrictMode>
-                <App />
-              </StrictMode>
-          </ProductProvider>
-        </CategoryProvider>
+        <OrderProvider>
+          <CategoryProvider>
+            <ProductProvider>
+                <StrictMode>
+                  <App />
+                </StrictMode>
+            </ProductProvider>
+          </CategoryProvider>
+        </OrderProvider>
       </CartProvider>
     </AuthProvider>
   </BrowserRouter>

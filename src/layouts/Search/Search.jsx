@@ -4,10 +4,13 @@ import { useProducts } from '../../context/productContext'
 import Product from '../../components/Product/Product'
 import Error from '../../components/Error/Error'
 import { useEffect } from 'react'
+import NoItemsFound from '../../components/NoItemsFound/NoItemsFound'
+import { faBox } from '@fortawesome/free-solid-svg-icons'
+import Loading from '../../components/Loading/Loading'
 import './Search.css'
 
 export default function Search() {
-  const { searchProduct, searchResult, searchError, isSearchOpen } = useProducts()
+  const { searchProduct, searchResult, searchError, isSearchOpen, isSearchLoading, search, toggleSearch } = useProducts()
 
   useEffect(() => {
     if (isSearchOpen) document.documentElement.style.overflow='hidden'
@@ -19,36 +22,37 @@ export default function Search() {
 
   return (
     <div className="search-container">
-      <SearchBar placeholder={'Buscar productos'} searchFn={searchProduct}/>
+      <SearchBar placeholder={'Buscar productos'} searchFn={searchProduct} closeBtn={true}/>
       <div className="search-content">
-        <div className="recommendations">
-            <h2 className="recommendations-title">
-                Lo mas buscado
-            </h2>
-            <Link className="recommendation">Tecnologia</Link>
-            <Link className="recommendation">Muebles</Link>
-            <Link className="recommendation">Electrodomesticos</Link>
-            <Link className="recommendation">Ropa</Link>
-            <Link className="recommendation">Carros</Link>
-            <Link className="recommendation">Deporte</Link>
-        </div>
         <div className="search-results-container">
             {
               searchResult.length !== 0 &&
-              <Link className='more-results'>Ver todos los { searchResult?.length } productos</Link>
+              <Link onClick={toggleSearch} to={`/products/search/?search_query=${search}`} className='more-results'>Ver todos los { searchResult?.length } productos</Link>
             }
             <div className="search-results">
                 {
-                  searchError && <Error message={'Error al encontrar los productos'} small={true}/>
-                }
-                {
-                    searchResult.length !== 0 
-                    &&
-                    searchResult.map(product => (
-                        <Product key={product._id} productData={product}/>
-                    ))
+                  searchResult.length !== 0 
+                  &&
+                  searchResult.map(product => (
+                    <Product key={product._id} productData={product}/>
+                  ))
                 }
             </div>
+            {
+              isSearchLoading
+              &&
+              <Loading icon={faBox}/>
+            }
+            {
+              searchError.status === 404 
+              &&
+              <NoItemsFound big={true} icon={faBox} message={'No se encontraron productos'}/>
+            }
+            {
+              searchError && searchError.status !== 404 
+              &&
+              <Error big={true} icon={faBox} message={'No se encontraron productos'}/>
+            }
         </div>
       </div>
     </div>

@@ -17,6 +17,8 @@ function ProductProvider( {children} ) {
     const [searchResult, setSearchResult] = useState([])
     const [searchError, setSearchError] = useState(false)
     const [isSearchOpen, setIsSearchOpen] = useState(false)
+    const [isSearchLoading, setIsSearchLoading] = useState(false)
+    const [search, setSearch] = useState(null)
     const [isOpen, setIsOpen] = useState(false)
     const [editProduct, setEditProduct] = useState(null)
     const { selectedCategory, selectedSubCategory } = useCategory()
@@ -29,15 +31,20 @@ function ProductProvider( {children} ) {
         setEditProduct(null)
     }
 
-    async function searchProduct(product) {
+    async function searchProduct(product, limit = 0) {
+        setSearchError(false)
+        if (product === '') return setSearchResult([])
+        setIsSearchLoading(true)
         try {
-            const { data } = await axios.get(`${URL}/products?product=${product}`)
+            const { data } = await axios.get(`${URL}/products?product=${product}&limit=${limit}`)
             setSearchResult(data.products)
+            setSearch(product)
         } catch (error) {
-            if (error.status === 404) return setProducts([])
-            console.log(error)
-            setSearchError(true)
+            if (error.status !== 404) console.log(error)
+            setSearchError(error)
+            setSearchResult([])
         }
+        setIsSearchLoading(false)
     }
 
     async function getProducts(product = '') {
@@ -65,6 +72,7 @@ function ProductProvider( {children} ) {
 
     async function addProduct(data) {
         data.price = parseFloat(data.price)
+        const image = typeof data.image === 'object' ? data.image[0] : data.image
 
         const formData = new FormData()
 
@@ -74,11 +82,11 @@ function ProductProvider( {children} ) {
         formData.append('price', data.price)
         formData.append('stock', data.stock)
         formData.append('description', data.description)
-        formData.append('image', data.image[0])
+        formData.append('image', image)
+        if (editProduct) formData.append('last_image', editProduct.image)
 
         try {
             if (editProduct) {
-                console.log('aca se ejecuto')
                 const { data } = await axios.put(`${URL}/products/${editProduct._id}`, formData)
                 const updatedProducts = products.map(product => product._id === editProduct._id ? {...data.updatedProduct} : product)
                 
@@ -105,7 +113,7 @@ function ProductProvider( {children} ) {
         setIsOpen(!isOpen)
     }
 
-    function deleteProduct(id) {
+    function deleteProduct(id, image) {
         Swal.fire({
             title: "¿Estas seguro?",
             text: "¡No podras revertir esto!",
@@ -122,7 +130,9 @@ function ProductProvider( {children} ) {
           }).then(async (result) => {
             try {
                 if (result.isConfirmed) {
-                  await axios.delete(`${URL}/products/${id}`)
+                  await axios.delete(`${URL}/products/${id}`, {
+                    data: { image }
+                  })
     
                   const newProducts = products.filter(product => product._id !== id)
                   removeFromCartIfDeleted(id)
@@ -160,7 +170,9 @@ function ProductProvider( {children} ) {
                 searchProduct,
                 searchError,
                 toggleSearch,
-                isSearchOpen
+                isSearchOpen,
+                isSearchLoading,
+                search
             } }
         >
             {children}

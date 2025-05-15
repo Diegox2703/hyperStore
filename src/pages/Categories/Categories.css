@@ -1,26 +1,31 @@
 .categories-banner-container {
-    position: relative;
-    width: 100%;
-    height: 400px;
+    display: flex;
+    justify-content: center;
 
-    .categories-banner {
+    .category-content {
+        position: relative;
         width: 100%;
-        height: 100%;
-        object-fit: cover;
-        filter: brightness(0.5);
-    }
+        height: 400px;
+        max-width: 1500px;
 
-    .categories-banner-title {
-        margin: 0;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        color: white;
-        font-size: 50px;
-        font-family: var(--primary-font);
+        .categories-banner {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.5);
+        }
+    
+        .categories-banner-title {
+            margin: 0;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 50px;
+            font-family: var(--primary-font);
+        }
     }
-
 }
 
 .category-content {

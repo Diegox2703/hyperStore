@@ -23,7 +23,7 @@ function CategoryProvider ({ children }) {
     const [isProductsLoading, setIsProductsLoading] = useState(false)
     const [toDelete, setToDelete] = useState([])
     const [isDeleteLoading, setIsDeleteLoading] = useState(false)
-    const { register, handleSubmit, formState: { errors }, unregister, setError, reset } = useForm()
+    const { register, handleSubmit, formState: { errors }, unregister, setError, reset,  } = useForm()
     const URL = 'http://localhost:3000/api'
 
     const handleOnChange = (e) => {
@@ -123,7 +123,7 @@ function CategoryProvider ({ children }) {
         setIsProductsLoading(true)
         setIsError(false)
         try {
-            const { data } = await axios.get(`${URL}/category/${subcategory}`)
+            const { data } = await axios.get(`${URL}/products/categories/${subcategory}`)
             setProductsFound(data)
         } catch (error) {
             console.log(error)

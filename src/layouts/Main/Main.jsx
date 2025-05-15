@@ -6,6 +6,7 @@ import ProductModal from '../ProductModal/ProductModal'
 import Search from '../Search/Search'
 import CategoryModal from '../CategoryModal/CategoryModal'
 import './Main.css'
+import CategoryBanner from '../CategoryBanner/CategoryBanner'
 
 export default function Main() {
     const { pathname } = useLocation()
@@ -16,6 +17,7 @@ export default function Main() {
         <>  
             <Header/>
             { pathname === '/' && <Banner/> }
+            <CategoryBanner/>
             <ProductModal/>
             <CategoryModal/>
             <Search/>

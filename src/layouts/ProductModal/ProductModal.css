@@ -3,7 +3,7 @@
     flex-direction: column;
     gap: 12px;
     width: 100%;
-    max-width: 600px;
+    max-width: 800px;
     background-color: white;
     border-radius: 10px;
     padding: 12px;
@@ -52,7 +52,7 @@
     }
 
     .modal-body {
-        max-height: 550px;
+        max-height: 500px;
         padding: 5px;
         overflow: auto;
         scrollbar-width: thin;
@@ -60,8 +60,64 @@
 
     .product-form {
         display: flex;
-        flex-direction: column;
         gap: 10px;
+        flex-wrap: wrap;
+
+        .product-img-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+            flex-basis: 300px;
+
+            #input-file {
+                display: none;
+            }
+
+            .image-preview-container {
+                position: sticky;
+                top: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: var(--secondary-color);
+                height: 500px;
+                border-radius: 10px;
+                color: var(--primary-color);
+                cursor: pointer;
+                transition: background-color .2s ease-in-out;
+                overflow: hidden;
+                
+                .add-icon {
+                    font-size: 50px;
+                }
+
+                .image-preview {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: filter .2s ease-in-out;
+                }
+
+                &:hover {
+                    background-color: rgb(32, 138, 173);
+
+                    .image-preview {
+                        filter: brightness(0.5);
+                    }
+                }
+            }
+        }
+
+        .product-details-section {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            flex-basis: 300px;
+            gap: 10px;
+            width: 100%;
+        }
+
     }
 }
 

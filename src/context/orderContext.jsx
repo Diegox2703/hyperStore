@@ -1,0 +1,82 @@
+import { useContext, createContext, useState } from 'react'
+import { useAuth } from './authContext'
+import { useCart } from './cartContext'
+import axios from 'axios'
+import { modal } from '../utils/modalUtils'
+
+const orderContext = createContext()
+
+export const useOrder = () => useContext(orderContext)
+
+function orderProvider ({ children }) {
+    const { user } = useAuth()
+    const { total, setCart } = useCart()
+    const [ orders, setOrders ] = useState([])
+    const [ isOrderError, setIsOrderError ] = useState(false)
+    const [ isOrdersLoading, setIsOrdersLoading ] = useState(false)
+    const [ isCreateOrderLoading, setIsCreateOrderLoading ] = useState(false)
+    
+    const URL = 'http://localhost:3000/api'
+
+    const getOrders = async () => {
+        setIsOrdersLoading(true)
+        setIsOrderError(false)
+        try {
+            const { data } = await axios.get(`${URL}/orders`)
+            setOrders(data.orders)
+        } catch (error) {
+            if (error.status === 404) {
+                setOrders([]) 
+                return setIsOrdersLoading(false)
+            } 
+            console.log(error)
+            setIsOrderError(true)
+        }
+        setIsOrdersLoading(false)
+    }
+
+    const createOrder = async () => {
+        const cartItems = JSON.parse(localStorage.getItem('cartProducts'))
+        const products = cartItems.map(item => ({
+            product: item._id,
+            quantity: item.quantity,
+            price: item.total_product
+        }))
+        
+        const order = {
+            user: user._id,
+            products,
+            total
+        }
+
+        setIsCreateOrderLoading(true)
+        try {
+            const { data } = await axios.post(`${URL}/orders`, order)
+            setOrders([...orders, data.newOrder])
+
+            setCart([])
+            localStorage.removeItem('cartProducts')
+            modal('success', 'Orden creada', 'Revisa tu compra en la seccion de compras')
+        } catch (error) {
+            console.log(error)
+            modal('error', 'Opps', 'Error al crear orden')
+        }
+        setIsCreateOrderLoading(false)
+    }
+
+    return (
+        <orderContext.Provider value={{
+            createOrder,
+            getOrders,
+            orders,
+            isOrdersLoading,
+            isCreateOrderLoading,
+            isOrderError,
+            isOrderError
+        }}>
+            { children }
+        </orderContext.Provider>
+    )
+}
+
+export default orderProvider

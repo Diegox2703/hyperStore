@@ -2,10 +2,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartPlus } from '@fortawesome/free-solid-svg-icons'
 import { useCart } from '../../context/cartContext'
 import { Link } from 'react-router'
+import { useProducts } from '../../context/productContext'
 import './Product.css'
 
 export default function Product( { productData } ) {
     const { addProductToCart } = useCart()
+    const { toggleSearch, isSearchOpen } = useProducts()
     const { _id, image, product_name, price } = productData
 
     return (
@@ -17,7 +19,7 @@ export default function Product( { productData } ) {
                 <h2 className="product-title" title={ product_name }>{ product_name }</h2>
             </section>
             <section className="buy-btn-section">
-                <Link to={`/product/${_id}`} className="buy-btn">
+                <Link to={`/product/${_id}`} className="buy-btn"  {...(isSearchOpen && { onClick: toggleSearch }) }>
                     <p className="price">${ price }</p>
                 </Link>
             </section>

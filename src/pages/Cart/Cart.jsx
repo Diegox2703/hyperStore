@@ -3,16 +3,18 @@ import CartProduct from '../../components/CartProduct/CartProduct'
 import { useCart } from '../../context/cartContext'
 import Loading from '../../components/Loading/Loading'
 import NoItemFound from '../../components/NoItemsFound/NoItemsFound'
-import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
+import { faCartShopping, faCircleNotch } from '@fortawesome/free-solid-svg-icons'
+import { useOrder } from '../../context/orderContext'
 import './Cart.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default function Cart() {
     const { getCartProducts, cart, count, total } = useCart()
+    const { createOrder, isCreateOrderLoading } = useOrder()
 
     useEffect(() => {
         getCartProducts()
     }, [])
-
 
    if (!cart) return <Loading icon={faCartShopping}/>
     
@@ -46,9 +48,17 @@ export default function Cart() {
                                 <p className="total-text">Total</p>
                                 <p className="total">${ total }</p>
                             </div>
-                            <button className="buy-btn">
-                                <p className="buy-btn-text">Continuar compra</p>
-                            </button>
+                            <div className="buy-btn-container">
+                                <button disabled={ isCreateOrderLoading } className="buy-btn" onClick={() => createOrder()}>
+                                    {
+                                        isCreateOrderLoading
+                                        ?
+                                        <FontAwesomeIcon icon={faCircleNotch} spin/>
+                                        :
+                                        <span className="buy-btn-text">Continuar compra</span>
+                                    }
+                                </button>
+                            </div>
                         </div>
                     </section>
                 </div>

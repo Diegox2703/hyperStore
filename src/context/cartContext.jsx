@@ -132,6 +132,7 @@ function CartProvider({ children }) {
             decreaseQuantity,
             removeFromCartIfDeleted,
             updateFromCartIfUpdated,
+            setCart,
             cart,
             count,
             total

@@ -12,8 +12,10 @@ import Error from './components/Error/Error'
 import Login from './pages/Login/Login'
 import AdminGuard from './services/guard/AdminGuard'
 import Categories from './pages/Categories/Categories'
-import './App.css'
 import Products from './pages/Products/Products'
+import Orders from './pages/Orders/Orders'
+import SearchResult from './pages/SearchResult/SearchResult'
+import './App.css'
 
 
 function App() {
@@ -40,6 +42,8 @@ function App() {
              }/>
             <Route path='cart' element={ <Cart/> } />
             <Route path='product/:id' element={ <ProductDetails/> }/>
+            <Route path='products/search' element={ <SearchResult/> }/>
+            <Route path='orders' element={ <Orders/> }/>
             <Route path='*' element={ <Error message={'No se encontro la pagina'}/> }/>
           </Route>
         </Routes>

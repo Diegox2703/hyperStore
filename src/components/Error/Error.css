@@ -13,6 +13,7 @@
     }
 
     .error-msg {
+        text-align: center;
         font-size: 30px;
         background-color: white;
         color: var(--secondary-color);

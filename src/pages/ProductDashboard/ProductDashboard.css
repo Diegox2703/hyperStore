@@ -1,20 +1,32 @@
-.dashboard-container {
+.dashboard-content {
+    border: 2px solid var(--secondary-color);
+    scrollbar-width: none;
+    scrollbar-color: var(--secondary-color) transparent;
     overflow: auto;
+    width: 100%;
+    max-width: 1600px;
 }
 
 .dashboard-title {
     width: 100%;
-    min-width: 1200px;
-    max-width: 1500px;
 }
 
-.products-number {
+.dashboard-container-header {
+    position: sticky;
+    top: 58px;
+    left: 0;
+    padding: 5px 0;
+    background-color: white;
+    width: 100%;
+}
+
+.products-number, .users-number {
     font-family: var(--primary-font);
     width: 100%;
     color: var(--secondary-color);
 }
 
-.add-product-btn-section {
+.add-product-btn-section, .add-user-btn-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -87,7 +99,7 @@
     border-collapse: collapse;
     width: 100%;
     min-width: 1200px;
-    max-width: 1500px;
+    max-width: 1600px;
     border: 2px solid var(--secondary-color);
     font-family: var(--primary-font);
     color: var(--secondary-color);

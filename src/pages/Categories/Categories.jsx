@@ -1,4 +1,3 @@
-import categoriesBanner from '../../images/banner-images/tech.webp'
 import { useCategory } from '../../context/categoryContext'
 import { useEffect } from 'react'
 import { Link } from 'react-router'
@@ -21,10 +20,6 @@ export default function Categories() {
 
   return (
     <>
-        <div className="categories-banner-container">
-            <img src={ categoriesBanner } alt="banner" className="categories-banner" />
-            <h1 className="categories-banner-title">Categorias</h1>
-        </div>
         <div className="categories-container">
             {   
                 categories.length !== 0

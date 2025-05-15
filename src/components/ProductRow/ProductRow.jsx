@@ -48,7 +48,7 @@ export default function ProductRow( { productData } ) {
                         </button>
                     </div>
                     <div className="delete-button-container">
-                        <button className="delete-button" onClick={() => deleteProduct(_id)}>
+                        <button className="delete-button" onClick={() => deleteProduct(_id, image)}>
                             <FontAwesomeIcon icon={faTrash}/>
                         </button>
                     </div>

@@ -8,7 +8,40 @@
     margin: 10px 0;
 
     .searchbar-content {
+        display: flex;
+        align-items: center;
+        gap: 10px;
         width: 100%;
         max-width: 600px;
+
+        .close-btn-container {
+            border-radius: 50%;
+            padding: 3px;
+            outline: 2px solid var(--secondary-color);
+            cursor: pointer;
+            transition: outline .2s ease-in-out;
+
+            .close-btn {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: var(--secondary-color);
+                padding: 7px;
+                border-radius: 50%;
+                width: 30px;
+                height: 30px;
+                color: var(--primary-color);
+                cursor: pointer;
+                transition: background-color .2s ease-in-out;
+            }
+
+            &:hover {
+                outline: 2px solid rgb(17, 113, 145);
+
+                .close-btn {
+                    background-color: rgb(17, 113, 145) ;
+                }
+            }
+        }
     }
 }
