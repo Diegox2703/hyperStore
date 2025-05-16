@@ -7,7 +7,7 @@ export default function CartProduct({ productData }) {
     const { removeProductFromCart, increaseQuantity, decreaseQuantity } = useCart()
     const { _id, product_name, image, total_product, quantity } = productData
 
-    const IMAGE_URL = import.meta.env.VITE_IMAGE_URL
+    const IMAGE_URL = import.meta.env.VITE_IMAGE_URL || 'http://localhost:3000'
 
     return (
         <div key={ _id } className="cart-product">

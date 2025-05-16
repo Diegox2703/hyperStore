@@ -8,7 +8,8 @@ import './UserModal.css'
 
 export default function UserModal({ toggleUserModal, setUsers, users, editUser }) {
     const { register, handleSubmit, watch, formState: { errors }, setValue, reset } = useForm()
-    const URL = import.meta.env.VITE_API_URL
+    const URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
+    
     const COUNTRIES = [
         "Estados Unidos",
         "Canadá",

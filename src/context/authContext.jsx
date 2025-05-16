@@ -10,7 +10,7 @@ export const useAuth = () => useContext(AuthContext)
 function AuthProvider({ children }) {
     const navigate = useNavigate();
     const [user, setUser] = useState( JSON.parse(localStorage.getItem('user')) )
-    const URL = import.meta.env.VITE_API_URL
+    const URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
 
     useEffect(() => {
         user ? localStorage.setItem('user', JSON.stringify(user))

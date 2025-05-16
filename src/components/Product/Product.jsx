@@ -10,7 +10,7 @@ export default function Product( { productData } ) {
     const { toggleSearch, isSearchOpen } = useProducts()
     const { _id, image, product_name, price } = productData
 
-    const IMAGE_URL = import.meta.env.VITE_IMAGE_URL
+    const IMAGE_URL = import.meta.env.VITE_IMAGE_URL || 'http://localhost:3000'
 
     return (
         <article key={ _id } className="product-card">

@@ -16,7 +16,7 @@ function orderProvider ({ children }) {
     const [ isOrdersLoading, setIsOrdersLoading ] = useState(false)
     const [ isCreateOrderLoading, setIsCreateOrderLoading ] = useState(false)
     
-    const URL = import.meta.env.VITE_API_URL
+    const URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
 
     const getOrders = async () => {
         setIsOrdersLoading(true)

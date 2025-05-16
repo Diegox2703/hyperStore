@@ -25,7 +25,7 @@ function CategoryProvider ({ children }) {
     const [isDeleteLoading, setIsDeleteLoading] = useState(false)
     const { register, handleSubmit, formState: { errors }, unregister, setError, reset,  } = useForm()
     
-    const URL = import.meta.env.VITE_API_URL
+    const URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
 
     const handleOnChange = (e) => {
         const selectedIndex = e.target.options.selectedIndex

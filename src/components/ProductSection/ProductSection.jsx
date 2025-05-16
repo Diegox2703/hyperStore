@@ -13,7 +13,7 @@ export default function ProductSection({ subcategory, title }) {
     const [isError, setIsError] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
-    const URL = import.meta.env.VITE_API_URL
+    const URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
 
     const productsSectionBySubcategory = async (subcategory, limit) => {
         setIsLoading(true)

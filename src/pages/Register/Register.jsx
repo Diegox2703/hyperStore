@@ -13,7 +13,7 @@ export default function Register() {
     const { register, handleSubmit, watch, formState: { errors } } = useForm()
     const { setUser } = useAuth()
     const navigate = useNavigate();
-    const URL = import.meta.env.VITE_API_URL
+    const URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
 
     const COUNTRIES = [
         "Estados Unidos",

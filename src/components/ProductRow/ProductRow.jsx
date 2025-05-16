@@ -7,7 +7,7 @@ export default function ProductRow( { productData } ) {
     const { updateProduct, deleteProduct } = useProducts()
     const { _id, image, product_name, description, category, subcategory, price } = productData
 
-    const IMAGE_URL = import.meta.env.VITE_IMAGE_URL
+    const IMAGE_URL = import.meta.env.VITE_IMAGE_URL || 'http://localhost:3000'
 
     return (
         <tr key={ _id } className="dashboard-row">

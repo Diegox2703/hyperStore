@@ -17,7 +17,7 @@ export default function ProductDetails() {
     const { isCreateOrderLoading, createOrderWithoutCart } = useOrder()
     const { id } = useParams()
 
-    const IMAGE_URL = import.meta.env.VITE_IMAGE_URL
+    const IMAGE_URL = import.meta.env.VITE_IMAGE_URL || 'http://localhost:3000'
 
     useEffect(() => {
         getProduct(id)

@@ -17,7 +17,7 @@ export default function UserDashboard() {
     const [error, setError] = useState(false)
     const [editUser, setEditUser] = useState(null)
     const [users, setUsers] = useState(null)
-    const URL = import.meta.env.VITE_API_URL
+    const URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
 
     useEffect(() => {
         if (!isOpen) setEditUser(null)

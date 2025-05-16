@@ -9,7 +9,7 @@ import './Orders.css'
 export default function Orders() {
   const { getOrders, orders, isOrdersLoading, isOrderError } = useOrder()
 
-  const IMAGE_URL = import.meta.env.VITE_IMAGE_URL
+  const IMAGE_URL = import.meta.env.VITE_IMAGE_URL || 'http://localhost:3000'
 
   useEffect(() => {
     getOrders()
