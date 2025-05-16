@@ -3,11 +3,11 @@ import { useCategory } from "../../context/categoryContext"
 import { useEffect } from "react"
 import Product from "../../components/Product/Product"
 import NoItemsFound from "../../components/NoItemsFound/NoItemsFound"
-import { faBox } from "@fortawesome/free-solid-svg-icons"
+import { faBox, faBoxOpen } from "@fortawesome/free-solid-svg-icons"
 import Error from "../../components/Error/Error"
 import Loading from "../../components/Loading/Loading"
 
-export default function Products() {
+export default function ProductsBySubcategory() {
   const { 
     getProductsBySubcategories, 
     productsFound, 
@@ -36,7 +36,7 @@ export default function Products() {
                 ))
             }
         </div>
-        { productsFound.products?.length === 0 && <NoItemsFound big={true} icon={faBox} message={'No se encontraron productos'}/>}
+        { productsFound.products?.length === 0 && <NoItemsFound big={true} icon={faBoxOpen} message={'No se encontraron productos'}/>}
     </>
   )
 }

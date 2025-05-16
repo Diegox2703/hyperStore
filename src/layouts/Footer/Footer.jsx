@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHandshakeAlt } from '@fortawesome/free-solid-svg-icons'
+import { faBolt } from '@fortawesome/free-solid-svg-icons'
 import { faFacebook, faInstagram, faLinkedin, faTiktok, faYoutube } from '@fortawesome/free-brands-svg-icons'
+import { Link } from 'react-router'
 import './Footer.css'
 
 export default function Footer() {
@@ -10,7 +11,7 @@ export default function Footer() {
                 <section className="footer-section page-logo-section">
                     <div className="page-logo">
                         <div className="logo">
-                            <FontAwesomeIcon icon={faHandshakeAlt}/>
+                            <FontAwesomeIcon icon={faBolt}/>
                         </div>
                         <h1 className="page-name">HyperStore</h1>
                     </div>
@@ -42,10 +43,10 @@ export default function Footer() {
                     <section className="navigation-section">
                         <h2 className="navigation-title">Navegacion</h2>
                         <ul className="nav-list">
-                            <li className="nav-item"><a href="./pages/register-page.html">Registro</a></li>
-                            <li className="nav-item"><a href="./pages/contact-page.html">Contacto</a></li>
-                            <li className="nav-item"><a href="./pages/about-page.html">Acerca de nosotros</a></li>
-                            <li className="nav-item"><a href="./pages/dashboard-page.html">Dashboard</a></li>
+                            <li className="nav-item"><Link to={'/register'}>Registro</Link></li>
+                            <li className="nav-item"><Link to={'/contact'}>Contacto</Link></li>
+                            <li className="nav-item"><Link to={'/about'}>Acerca de nosotros</Link></li>
+                            <li className="nav-item"><Link to={'/categories'}>Categorias</Link></li>
                         </ul>
                     </section>
                     <section className="contact-section">

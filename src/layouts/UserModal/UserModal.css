@@ -1,6 +1,8 @@
 .modal-register-form {
     max-height: 600px;
     overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--secondary-color) white;
     animation: slideDown .3s forwards;
 
     .modal-header {

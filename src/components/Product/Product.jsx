@@ -10,10 +10,12 @@ export default function Product( { productData } ) {
     const { toggleSearch, isSearchOpen } = useProducts()
     const { _id, image, product_name, price } = productData
 
+    const IMAGE_URL = import.meta.env.VITE_IMAGE_URL
+
     return (
         <article key={ _id } className="product-card">
             <section className="product-image">
-                <img src={ `http://localhost:3000/${image}` } alt="product-image" className="image"/>
+                <img src={ `${IMAGE_URL}/${image}` } alt="product-image" className="image"/>
             </section>
             <section className="product-title-section">
                 <h2 className="product-title" title={ product_name }>{ product_name }</h2>

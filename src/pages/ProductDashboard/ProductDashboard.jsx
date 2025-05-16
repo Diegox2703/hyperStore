@@ -27,9 +27,10 @@ export default function ProductDashboard() {
     return (
         <div className="dashboard-container">
             <h1 className="title dashboard-title">Administrador de productos</h1>
+            <p className="products-number">Hay un total de {products.length} productos.</p>
             <div className="dashboard-container-header">
                 <section className="add-product-btn-section">
-                    <p className="products-number">Hay un total de {products.length} productos.</p>
+                    <SearchBar placeholder={'Buscar producto'} searchFn={getProducts}/>
                     <div className="category-btn-container">
                         <button className="category-btn" onClick={() => toggleCategoryModal()}>
                             Categorias
@@ -41,7 +42,6 @@ export default function ProductDashboard() {
                         </button>
                     </div>
                 </section>
-                <SearchBar placeholder={'Buscar producto'} searchFn={getProducts}/>
             </div>
             {
                 products.length === 0 

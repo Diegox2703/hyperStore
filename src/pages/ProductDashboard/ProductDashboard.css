@@ -13,7 +13,7 @@
 
 .dashboard-container-header {
     position: sticky;
-    top: 58px;
+    top: 65px;
     left: 0;
     padding: 5px 0;
     background-color: white;
@@ -31,7 +31,6 @@
     justify-content: space-between;
     align-items: center;
     margin: 0px;
-    margin: 10px 0;
     width: 100%;
     gap: 10px;
 

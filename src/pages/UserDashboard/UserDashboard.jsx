@@ -10,7 +10,7 @@ import Loading from "../../components/Loading/Loading";
 import axios from "axios";
 import NoItemsFound from "../../components/NoItemsFound/NoItemsFound";
 import Error from "../../components/Error/Error";
-import SearchBar from "../../components/SearchBar/SearchBar";
+import       SearchBar from "../../components/SearchBar/SearchBar";
 
 export default function UserDashboard() {
     const [isOpen, setIsOpen] = useState(false)
@@ -98,16 +98,16 @@ export default function UserDashboard() {
             }
             <div className="dashboard-container">
                 <h1 className="title dashboard-title">Administrador de usuarios</h1>
+                <p className="users-number">Hay un total de { users.length } usuarios.</p>
                 <div className="dashboard-container-header">
                     <section className="add-user-btn-section">
-                        <p className="users-number">Hay un total de { users.length } usuarios.</p>
+                        <SearchBar placeholder={'Buscar usuario'} searchFn={getUsers}/>
                         <div className="add-product-btn-container">
                             <button className="add-product-btn" onClick={() => toggleUserModal()}>
                                 <FontAwesomeIcon icon={faAdd}/>
                             </button>
                         </div>
                     </section>
-                    <SearchBar placeholder={'Buscar usuario'} searchFn={getUsers}/>
                 </div>
                 <div className="dashboard-content">
                     <table className="main-dashboard">

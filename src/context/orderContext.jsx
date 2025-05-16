@@ -16,13 +16,15 @@ function orderProvider ({ children }) {
     const [ isOrdersLoading, setIsOrdersLoading ] = useState(false)
     const [ isCreateOrderLoading, setIsCreateOrderLoading ] = useState(false)
     
-    const URL = 'http://localhost:3000/api'
+    const URL = import.meta.env.VITE_API_URL
 
     const getOrders = async () => {
         setIsOrdersLoading(true)
         setIsOrderError(false)
         try {
-            const { data } = await axios.get(`${URL}/orders`)
+            const { data } = await axios.get(`${URL}/orders`, {
+                withCredentials: true
+            })
             setOrders(data.orders)
         } catch (error) {
             if (error.status === 404) {
@@ -51,7 +53,9 @@ function orderProvider ({ children }) {
 
         setIsCreateOrderLoading(true)
         try {
-            const { data } = await axios.post(`${URL}/orders`, order)
+            const { data } = await axios.post(`${URL}/orders`, order, {
+                withCredentials: true
+            })
             setOrders([...orders, data.newOrder])
 
             setCart([])
@@ -64,15 +68,43 @@ function orderProvider ({ children }) {
         setIsCreateOrderLoading(false)
     }
 
+    const createOrderWithoutCart = async (product) => {
+        const newProduct = [{
+            product: product._id,
+            quantity: 1,
+            price: product.price
+        }]
+
+        const order = {
+            user: user?._id,
+            products: newProduct,
+            total: product.price
+        }
+
+        setIsCreateOrderLoading(true)
+        try {
+            const { data } = await axios.post(`${URL}/orders`, order, {
+                withCredentials: true
+            })
+            setOrders([...orders, data.newOrder])
+
+            modal('success', 'Orden creada', 'Revisa tu compra en la seccion de compras o ordenes')
+        } catch (error) {
+            console.log(error)
+            modal('error', 'Opps', 'Error al crear orden')
+        }
+        setIsCreateOrderLoading(false)
+    }
+
     return (
         <orderContext.Provider value={{
             createOrder,
+            createOrderWithoutCart,
             getOrders,
             orders,
             isOrdersLoading,
             isCreateOrderLoading,
             isOrderError,
-            isOrderError
         }}>
             { children }
         </orderContext.Provider>

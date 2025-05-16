@@ -9,7 +9,44 @@ import './UserModal.css'
 export default function UserModal({ toggleUserModal, setUsers, users, editUser }) {
     const { register, handleSubmit, watch, formState: { errors }, setValue, reset } = useForm()
     const URL = 'http://localhost:3000/api'
-    
+    const COUNTRIES = [
+        "Estados Unidos",
+        "Canadá",
+        "México",
+        "Guatemala",
+        "Belice",
+        "El Salvador",
+        "Honduras",
+        "Nicaragua",
+        "Costa Rica",
+        "Panamá",
+        "Cuba",
+        "República Dominicana",
+        "Haití",
+        "Jamaica",
+        "Puerto Rico",
+        "Colombia",
+        "Venezuela",
+        "Ecuador",
+        "Perú",
+        "Bolivia",
+        "Chile",
+        "Paraguay",
+        "Uruguay",
+        "Argentina",
+        "Brasil",
+        "España",
+        "Francia",
+        "Alemania",
+        "Italia",
+        "Portugal",
+        "Países Bajos",
+        "Reino Unido",
+        "Suiza",
+        "Suecia",
+        "Noruega"
+    ];
+
     useEffect(() => {
         if (editUser) {
             setValue('username', editUser.username)
@@ -117,6 +154,23 @@ export default function UserModal({ toggleUserModal, setUsers, users, editUser }
                     </>
                 }
                 <div className="input-label-container">
+                    <label htmlFor="country" className="input-label">Pais</label>
+                </div>
+                <div className="input-group">
+                    <select {...register('country', {
+                        required: 'Campo vacio'
+                    })} className="input-field" id="country">
+                        <option value="">...</option>
+                        {
+                            COUNTRIES.map(country => (
+                                <option defaultValue={ country }>{ country }</option>
+                            ))
+                        }
+                    </select>
+                    { errors.country && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
+                </div>
+                { errors.country && <span className="error-msg">{errors.country.message}</span> }
+                <div className="input-label-container">
                     <label htmlFor="birthdate" className="input-label">Fecha de nacimiento</label>
                 </div>
                 <div className="input-group">
@@ -126,13 +180,6 @@ export default function UserModal({ toggleUserModal, setUsers, users, editUser }
                     { errors.birthday && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
                 </div>
                 { errors.birthday && <span className="error-msg">{errors.birthday.message}</span> }
-                <div className="input-group">
-                    <input {...register('country', {
-                        required: 'Campo vacio'
-                    })} className="input-field" id="country" type="text" placeholder="Pais" autoComplete="off"/>
-                    { errors.country && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
-                </div>
-                { errors.country && <span className="error-msg">{errors.country.message}</span> }
                 <div className="form-btn-container">
                     <button className="form-btn"> {editUser ? 'Actualizar' : 'Crear' } </button>
                 </div>

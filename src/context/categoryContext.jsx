@@ -24,7 +24,8 @@ function CategoryProvider ({ children }) {
     const [toDelete, setToDelete] = useState([])
     const [isDeleteLoading, setIsDeleteLoading] = useState(false)
     const { register, handleSubmit, formState: { errors }, unregister, setError, reset,  } = useForm()
-    const URL = 'http://localhost:3000/api'
+    
+    const URL = import.meta.env.VITE_API_URL
 
     const handleOnChange = (e) => {
         const selectedIndex = e.target.options.selectedIndex
@@ -97,11 +98,11 @@ function CategoryProvider ({ children }) {
             }
         }
         
+        reset()
         setToDelete([])
         setIsLoading(false)
         setToggleForm(false)
         setEditCategory(false)
-        reset()
     }
 
     const getCategories = async () => {

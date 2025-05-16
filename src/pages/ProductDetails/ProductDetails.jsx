@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark } from '@fortawesome/free-regular-svg-icons'
-import { faBox, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faBox, faCircleNotch, faStar } from '@fortawesome/free-solid-svg-icons'
 import { useProducts } from '../../context/productContext'
 import { Link, useParams } from 'react-router'
 import { useEffect } from 'react'
@@ -8,12 +8,16 @@ import { useCart } from '../../context/cartContext'
 import ProductSection from '../../components/ProductSection/ProductSection'
 import Loading from '../../components/Loading/Loading'
 import Error from '../../components/Error/Error'
+import { useOrder } from '../../context/orderContext'
 import './ProductDetails.css'
 
 export default function ProductDetails() {
     const { getProduct, product, productError } = useProducts()
     const { addProductToCart } = useCart()
+    const { isCreateOrderLoading, createOrderWithoutCart } = useOrder()
     const { id } = useParams()
+
+    const IMAGE_URL = import.meta.env.VITE_IMAGE_URL
 
     useEffect(() => {
         getProduct(id)
@@ -27,7 +31,7 @@ export default function ProductDetails() {
         <>
             <div className="product-details-container">
                 <section className="product-image-section">
-                    <img className='product-image' src={ `http://localhost:3000/${product.image}` } alt="product-image" />
+                    <img className='product-image' src={ `${IMAGE_URL}/${product.image}` } alt="product-image" />
                 </section>
                 <section className="product-details-section">
                     <div className="product-category-container">
@@ -61,12 +65,22 @@ export default function ProductDetails() {
                         <span className='product-price'>${ product.price }</span>
                     </div>
                     <div className="product-action-btns">
-                        <button className="product-buy-btn">
-                            <p className="product-buy-btn-text">Comprar</p>
-                        </button>
-                        <button className="product-cart-btn" onClick={() => addProductToCart(product)}>
-                            <p className="product-cart-text">Agregar al carrito</p>
-                        </button>
+                        <div className="product-buy-btn-container">
+                            <button disabled={ isCreateOrderLoading } className="product-buy-btn" onClick={() => createOrderWithoutCart(product)}>
+                                {
+                                    isCreateOrderLoading
+                                    ?
+                                    <FontAwesomeIcon icon={faCircleNotch} spin/>
+                                    :
+                                    <span>Comprar</span>
+                                }
+                            </button>
+                        </div>
+                        <div className="product-cart-btn-container">
+                            <button className="product-cart-btn" onClick={() => addProductToCart(product)}>
+                                <span>Agregar al carrito</span>
+                            </button>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -78,7 +92,7 @@ export default function ProductDetails() {
                     <p className="product-description">{ product.description }</p>
                 </section>
             </div>
-            <ProductSection title={'Mas Productos'}/>
+            <ProductSection title={'Productos relacionados'} subcategory={product.subcategory.subcategory}/>
         </>
     )
 }

@@ -24,7 +24,7 @@ function ProductProvider( {children} ) {
     const { selectedCategory, selectedSubCategory } = useCategory()
     const { removeFromCartIfDeleted, updateFromCartIfUpdated } = useCart()
 
-    const URL = 'http://localhost:3000/api'
+    const URL = import.meta.env.VITE_API_URL
 
     function toggleProductModal() {
         setIsOpen(!isOpen)

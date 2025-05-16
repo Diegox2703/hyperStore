@@ -33,7 +33,7 @@ export default function Search() {
                 {
                   searchResult.length !== 0 
                   &&
-                  searchResult.map(product => (
+                  searchResult.slice(0, 8).map(product => (
                     <Product key={product._id} productData={product}/>
                   ))
                 }

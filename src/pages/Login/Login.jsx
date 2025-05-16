@@ -1,4 +1,4 @@
-import { faHandshake, faWarning } from "@fortawesome/free-solid-svg-icons";
+import { faBolt, faWarning } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from 'react-router'
 import { useForm } from "react-hook-form";
@@ -14,7 +14,7 @@ export default function Login() {
       <form className="login-form" onSubmit={(handleSubmit(logIn))}>
         <div className="website-logo">
             <div className="icon-container">
-                <FontAwesomeIcon className="icon" icon={faHandshake}/>
+                <FontAwesomeIcon className="icon" icon={faBolt}/>
             </div>
             <h1 className="name">HyperStore</h1>
         </div>

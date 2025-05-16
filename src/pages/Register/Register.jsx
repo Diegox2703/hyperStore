@@ -5,13 +5,53 @@ import axios from "axios"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router"
 import { modal } from "../../utils/modalUtils"
-import { faHandshake } from "@fortawesome/free-solid-svg-icons"
+import { faBolt } from "@fortawesome/free-solid-svg-icons"
 import banner from '../../images/register-banner.png'
+import { useAuth } from "../../context/authContext"
 
 export default function Register() {
     const { register, handleSubmit, watch, formState: { errors } } = useForm()
+    const { setUser } = useAuth()
     const navigate = useNavigate();
-    const URL = 'http://localhost:3000/api'
+    const URL = import.meta.env.VITE_API_URL
+
+    const COUNTRIES = [
+        "Estados Unidos",
+        "Canadá",
+        "México",
+        "Guatemala",
+        "Belice",
+        "El Salvador",
+        "Honduras",
+        "Nicaragua",
+        "Costa Rica",
+        "Panamá",
+        "Cuba",
+        "República Dominicana",
+        "Haití",
+        "Jamaica",
+        "Puerto Rico",
+        "Colombia",
+        "Venezuela",
+        "Ecuador",
+        "Perú",
+        "Bolivia",
+        "Chile",
+        "Paraguay",
+        "Uruguay",
+        "Argentina",
+        "Brasil",
+        "España",
+        "Francia",
+        "Alemania",
+        "Italia",
+        "Portugal",
+        "Países Bajos",
+        "Reino Unido",
+        "Suiza",
+        "Suecia",
+        "Noruega"
+    ];
 
     async function addUser(formData) {
         const { username, email, password, birthday, country } = formData
@@ -25,7 +65,10 @@ export default function Register() {
         }
         
         try {
-            await axios.post(`${URL}/register`, newUser)
+            const { data } = await axios.post(`${URL}/register`, newUser, {
+                withCredentials: true
+            })
+            setUser(data.newUser)
             navigate('/')
         } catch (error) {
             console.log(error)
@@ -45,7 +88,7 @@ export default function Register() {
             <form className="register-form" onSubmit={handleSubmit(addUser)} noValidate>
                 <div className="website-logo">
                     <div className="icon-container">
-                        <FontAwesomeIcon className="icon" icon={faHandshake}/>
+                        <FontAwesomeIcon className="icon" icon={faBolt}/>
                     </div>
                     <h1 className="name">HyperStore</h1>
                 </div>
@@ -89,6 +132,23 @@ export default function Register() {
                 </div>
                 { errors.repeat_password && <span className="error-msg">{errors.repeat_password.message}</span> }
                 <div className="input-label-container">
+                    <label htmlFor="country" className="input-label">Pais</label>
+                </div>
+                <div className="input-group">
+                    <select {...register('country', {
+                        required: 'Campo vacio'
+                    })} className="input-field" id="country">
+                        <option value="">...</option>
+                        {
+                            COUNTRIES.map(country => (
+                                <option defaultValue={ country }>{ country }</option>
+                            ))
+                        }
+                    </select>
+                { errors.country && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
+                </div>
+                { errors.country && <span className="error-msg">{errors.country.message}</span> }
+                <div className="input-label-container">
                     <label htmlFor="birthdate" className="input-label">Fecha de nacimiento</label>
                 </div>
                 <div className="input-group">
@@ -98,13 +158,6 @@ export default function Register() {
                     { errors.birthday && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
                 </div>
                 { errors.birthday && <span className="error-msg">{errors.birthday.message}</span> }
-                <div className="input-group">
-                    <input {...register('country', {
-                        required: 'Campo vacio'
-                    })} className="input-field" id="country" type="text" placeholder="Pais" autoComplete="off"/>
-                    { errors.country && <FontAwesomeIcon className='warning-icon' icon={faWarning} />}
-                </div>
-                { errors.country && <span className="error-msg">{errors.country.message}</span> }
                 <div className="form-btn-container">
                     <button className="form-btn">Registrate</button> 
                 </div>

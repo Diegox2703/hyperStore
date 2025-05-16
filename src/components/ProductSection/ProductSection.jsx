@@ -1,39 +1,57 @@
-import { useEffect } from 'react'
-import { useProducts } from '../../context/productContext'
+import { useEffect, useState } from 'react'
 import { faBox, faBoxOpen } from '@fortawesome/free-solid-svg-icons'
 import Product from '../Product/Product'
 import Loading from '../Loading/Loading'
 import NoItemsFound from '../NoItemsFound/NoItemsFound'
 import Error from '../Error/Error'
+import axios from 'axios'
+import { Link } from 'react-router'
 import './ProductSection.css'
 
-export default function ProductSection({ title }) {
-    const { getProducts, products, error } = useProducts()
+export default function ProductSection({ subcategory, title }) {
+    const [products, setProducts] = useState([])
+    const [isError, setIsError] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+
+    const URL = import.meta.env.VITE_API_URL
+
+    const productsSectionBySubcategory = async (subcategory, limit) => {
+        setIsLoading(true)
+        try {
+            const { data } = await axios.get(`${URL}/products/categories/${subcategory}?limit=${limit}`)
+            setProducts(data.products)
+        } catch (error) {
+            console.log(error)
+            setIsError(error)
+        }
+        setIsLoading(false)
+    }
 
     useEffect(() => {
-        getProducts()
+        productsSectionBySubcategory(subcategory, 8)
     }, [])
 
-    if (error) return <Error message={'Error al intentar cargar los productos'} small={true}/>
+    if (isError && isError.status !== 404) return <Error message={'Error al obtener productos'} small={true}/>
 
-    if (!products) return <Loading icon={ faBox } small={true}/>
+    if (isError && isError.status === 404) return <NoItemsFound icon={faBoxOpen} message={'No se encontraron productos'}/>
+
+    if (isLoading) return <Loading icon={faBox} small={true}/>
 
     return (
-        <>
-            <h1 className="title">{ title }</h1>
-            {
-                products.length !== 0
-                ?
-                <section className="products-section">
+        <>  
+            <div className="product-section-container">
+                <div className="product-section-header">
+                    <h1 className="product-section-title">{ title }</h1>
+                    <Link to={`/categories/${subcategory}`} className='see-more'>Ver mas</Link>
+                </div>
+                <div className="products-container">
                     {
                         products.map(product => (
-                            <Product key={product._id} productData={product}/>
+                            <Product key={ product._id } productData={product}/>
                         ))
                     }
-                </section>
-                :
-                <NoItemsFound icon={faBoxOpen} message={'No hay productos'}/>
-            }
+                </div>
+            </div>
         </>
     )
 }

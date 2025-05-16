@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretDown, faCartShopping, faCloud, faSearch, faTruck, faUserAlt } from '@fortawesome/free-solid-svg-icons'
-import { faHandshake } from '@fortawesome/free-regular-svg-icons'
+import { faBolt, faCaretDown, faCartShopping, faCloud, faSearch, faTruck, faUserAlt } from '@fortawesome/free-solid-svg-icons'
 import { Link, NavLink } from 'react-router'
 import { useEffect, useRef } from 'react'
 import { useCart } from '../../context/cartContext'
@@ -13,6 +12,8 @@ export default function Header() {
     const { user, logOut } = useAuth()
     const { toggleSearch } = useProducts()
     const burgerRef = useRef(null)
+
+    console.log(user)
 
     function closeSideMenu() {
         burgerRef.current.checked = false
@@ -49,7 +50,7 @@ export default function Header() {
                             <FontAwesomeIcon className='truck' icon={faTruck}/>
                         </div>
                         <div className="handshake-icon">
-                            <FontAwesomeIcon icon={faHandshake}/>
+                            <FontAwesomeIcon icon={faBolt}/>
                         </div>
                     </div>
                     <h1 className="page-name">HyperStore</h1>

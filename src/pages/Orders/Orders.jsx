@@ -9,6 +9,8 @@ import './Orders.css'
 export default function Orders() {
   const { getOrders, orders, isOrdersLoading, isOrderError } = useOrder()
 
+  const IMAGE_URL = import.meta.env.VITE_IMAGE_URL
+
   useEffect(() => {
     getOrders()
   }, [])
@@ -16,8 +18,6 @@ export default function Orders() {
   if (isOrderError) return <Error message={'Error al obtener ordenes'}/>
 
   if (isOrdersLoading) return <Loading icon={faList}/>
-
-  console.log(orders)
 
   return (
     <>
@@ -37,7 +37,7 @@ export default function Orders() {
                                     &&
                                     <article key={ product._id } className="order">
                                         <section className="order-img-section">
-                                            <img src={ `http://localhost:3000/${ product.product?.image }` } alt="order-img" className="order-img" />
+                                            <img src={ `${IMAGE_URL}/${ product.product?.image }` } alt="order-img" className="order-img" />
                                         </section>
                                         <section className="order-details-section">
                                             <h3 className="product-name">{ product.product.product_name }</h3>

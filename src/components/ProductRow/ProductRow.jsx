@@ -7,11 +7,13 @@ export default function ProductRow( { productData } ) {
     const { updateProduct, deleteProduct } = useProducts()
     const { _id, image, product_name, description, category, subcategory, price } = productData
 
+    const IMAGE_URL = import.meta.env.VITE_IMAGE_URL
+
     return (
         <tr key={ _id } className="dashboard-row">
             <td className="dashboard-cell">
                 <Link to={`/product/${_id}`} className="product-image">
-                    <img className="image" src={ `http://localhost:3000/${image}` } alt="image"/>
+                    <img className="image" src={ `${IMAGE_URL}/${image}` } alt="image"/>
                 </Link>
             </td>
             <td className="dashboard-cell">

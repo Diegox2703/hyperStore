@@ -7,10 +7,12 @@ export default function CartProduct({ productData }) {
     const { removeProductFromCart, increaseQuantity, decreaseQuantity } = useCart()
     const { _id, product_name, image, total_product, quantity } = productData
 
+    const IMAGE_URL = import.meta.env.VITE_IMAGE_URL
+
     return (
         <div key={ _id } className="cart-product">
             <div className="cart-product-image">
-                <img className='image' src={ `http://localhost:3000/${image}` } alt="product-image" />
+                <img className='image' src={ `${IMAGE_URL}/${image}` } alt="product-image" />
             </div>
             <div className="cart-product-details">
                 <Link to={`/product/${_id}`} className="cart-product-name" title={ product_name }>{ product_name }</Link>
