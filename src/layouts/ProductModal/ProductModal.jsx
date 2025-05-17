@@ -23,6 +23,8 @@ export default function ProductModal() {
     } = useCategory()
     const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm()
 
+    const IMAGE_URL = import.meta.env.VITE_IMAGE_URL || 'http://localhost:3000'
+
     const handleImageOnChange = (e) => {
         const image = e.target.files[0]
         const imageURL = URL.createObjectURL(image)
@@ -45,7 +47,7 @@ export default function ProductModal() {
             setShouldValidate(false)
             setSelectedCategory(categoryFound)
             setSelectedSubcategory(editProduct.subcategory?._id)
-            setSelectedImage(`http://localhost:3000/${editProduct.image}`)
+            setSelectedImage(`${IMAGE_URL}/${editProduct.image}`)
             setReloadSubcategory(true)
             
             setValue('product_name', editProduct.product_name)
