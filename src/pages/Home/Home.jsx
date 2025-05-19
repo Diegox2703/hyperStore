@@ -8,8 +8,9 @@ export default function Home() {
             <ProductSection title={'Laptops'} subcategory={'Laptops'}/>
             <ProductSection title={'Sofas'} subcategory={'Sofas'}/>
             <ProductSection title={'Neveras'} subcategory={'Neveras'}/>
-            <ProductSection title={'Camisas'} subcategory={'Camisas'}/>
-            <ProductSection title={'Guitarras'} subcategory={'Guitarras'}/>
+            <ProductSection title={'Camisas - Hombre'} subcategory={'Camisas - Hombre'}/>
+            <ProductSection title={'Camisas - Mujer'} subcategory={'Camisas - Mujer'}/>
+            <ProductSection title={'Cuadros'} subcategory={'Cuadros'}/>
             <div className="see-more-categories-contaiener">
                 <Link to={'/categories'} className='see-more-categories'>Ver mas categorias</Link>
             </div>
