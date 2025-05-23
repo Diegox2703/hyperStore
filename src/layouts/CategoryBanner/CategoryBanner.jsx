@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router'
-import categoriesBanner from '../../images/banner-images/tech.webp'
+import categoriesBanner from '../../images/category-banner.jpg'
 
 export default function CategoryBanner() {
   const { pathname } = useLocation()
