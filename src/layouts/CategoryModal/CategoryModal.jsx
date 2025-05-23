@@ -1,4 +1,4 @@
-import { faAdd, faCheck, faCircleNotch, faClose, faPencil, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faArrowLeft, faCheck, faCircleNotch, faClose, faPencil, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
 import { useCategory } from "../../context/categoryContext.jsx";
@@ -24,6 +24,7 @@ export default function CategoryModal() {
     errors,
     isCategoryModalOpen,
     toggleCategoryModal,
+    untoggleForm
   } = useCategory()
 
   useEffect(() => {
@@ -36,7 +37,15 @@ export default function CategoryModal() {
     <div className="modal-overlay" onClick={() => toggleCategoryModal()}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-            <h2 className='modal-title'>Categorias</h2>
+            <div className="modal-title-container">
+                {
+                    toggleForm &&
+                    <button type="button" className="return-btn" onClick={untoggleForm}>
+                        <FontAwesomeIcon icon={faArrowLeft}/>
+                    </button>
+                }
+                <h2 className='modal-title'>Categorias</h2>
+            </div>
             <div className="close-modal-btn" onClick={() => toggleCategoryModal()}>
                 <FontAwesomeIcon className='close-modal-icon' icon={faClose}/>
             </div>

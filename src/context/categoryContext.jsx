@@ -1,7 +1,8 @@
 import { modal } from '../utils/modalUtils'
-import { useContext, createContext, useState } from 'react'
+import { useContext, createContext, useState, useRef, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 const CategoryContext = createContext()
 
@@ -24,6 +25,7 @@ function CategoryProvider ({ children }) {
     const [toDelete, setToDelete] = useState([])
     const [isDeleteLoading, setIsDeleteLoading] = useState(false)
     const { register, handleSubmit, formState: { errors }, unregister, setError, reset,  } = useForm()
+    const categoryRef = useRef(null)
     
     const URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
 
@@ -76,6 +78,7 @@ function CategoryProvider ({ children }) {
 
                 setCategories(newCategories)
                 setSelectedCategory(data.updatedCategory)
+                modal('success', 'Categoria actualizada')
             } catch (error) {
                 console.log(error)
 
@@ -90,6 +93,7 @@ function CategoryProvider ({ children }) {
 
                 setCategories(newCategories)
                 setSelectedCategory(data.newCategory)
+                modal('success', 'Categoria creada')
             } catch (error) {
                 console.log(error)
                 
@@ -138,6 +142,7 @@ function CategoryProvider ({ children }) {
 
         setToggleForm(true)
         setSelectedCategory(DEFAULT_CATEGORY)
+        categoryRef.current = DEFAULT_CATEGORY
     }
 
     const createSubcategory = () => { 
@@ -145,48 +150,82 @@ function CategoryProvider ({ children }) {
             _id: crypto.randomUUID(),
             subcategory: null
         }
-        selectedCategory.subcategories = [...selectedCategory.subcategories, subcategory] || []
+        const selectedCategoryCopy = {...selectedCategory}
+        selectedCategoryCopy.subcategories = [...selectedCategoryCopy.subcategories, subcategory] || []
 
-        setSelectedCategory({...selectedCategory})
+        setSelectedCategory({...selectedCategoryCopy})
     }
 
     const updateCategory = () => {
         setToggleForm(true)
         setEditCategory(true)
+
+        categoryRef.current = {...selectedCategory}
     }
 
     const deleteSubcategory = (id) => {
         const newSubcategories = selectedCategory.subcategories.filter(subcategory => subcategory._id !== id)
-        selectedCategory.subcategories = newSubcategories
+        const selectedCategoryCopy = {...selectedCategory}
+        selectedCategoryCopy.subcategories = newSubcategories
 
         setToDelete([...toDelete, id])
-        setSelectedCategory({...selectedCategory})
+        setSelectedCategory({...selectedCategoryCopy})
         unregister(`subcategory_${id}`)
     }
 
     const deleteCategory = async () => {
         if(selectedCategory?._id) {
-            setIsDeleteLoading(true)
-            try {
-                await axios.delete(`${URL}/category/${selectedCategory._id}`)
-                const newCategories = categories.filter(category => category._id !== selectedCategory._id)
-                
-                setCategories(newCategories)
-            } catch (error) {
-                console.log(error)
-                modal('error', 'Opps', 'Error al eliminar categoria')
+            Swal.fire({
+            title: "¿Estas seguro?",
+            text: "¡No podras revertir esto!",
+            icon: "warning",
+            showCancelButton: true,
+            cancelButtonColor: "#d33",
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: "<div style='color: rgb(255, 255, 137)'>Si</div>",
+            confirmButtonColor: 'rgb(0, 88, 117)',
+            color: 'rgb(0, 88, 117)',
+            customClass: {
+                popup: 'custom-popup'
             }
-            setIsDeleteLoading(false)
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+                setIsDeleteLoading(true)
+                try {
+                    await axios.delete(`${URL}/category/${selectedCategory._id}`)
+                    const newCategories = categories.filter(category => category._id !== selectedCategory._id)
+                
+                    setCategories(newCategories)
+                    modal('success', 'Eliminado', 'Categoria eliminada con exito')
+                } catch (error) {
+                    console.log(error)
+                    modal('error', 'Oops...', 'Parece que algo salio mal, intentelo mas tarde')
+                }
+                setIsDeleteLoading(false)
+                setSelectedCategory(DEFAULT_CATEGORY)
+                setToggleForm(false)
+                setEditCategory(false)
+                reset()
+            }
+          });
+        } else {
+            setSelectedCategory(DEFAULT_CATEGORY)
+            setToggleForm(false)
+            setEditCategory(false)
+            reset() 
         }
-        
-        setSelectedCategory(DEFAULT_CATEGORY)
-        setToggleForm(false)
-        setEditCategory(false)
-        reset()
     }
 
     const toggleCategoryModal = () => {
         setIsCategoryModalOpen(!isCategoryModalOpen)
+    }
+
+    const untoggleForm = () => {
+        setSelectedCategory(categoryRef.current)
+        reset()
+        setToDelete([])
+        setEditCategory(false)
+        setToggleForm(false)
     }
 
     return (
@@ -207,6 +246,7 @@ function CategoryProvider ({ children }) {
             setSelectedCategory,
             setSelectedSubcategory,
             setError,
+            untoggleForm,
             categories,
             toggleForm,
             isLoading,

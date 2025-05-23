@@ -13,8 +13,6 @@ export default function Header() {
     const { toggleSearch } = useProducts()
     const burgerRef = useRef(null)
 
-    console.log(user)
-
     function closeSideMenu() {
         burgerRef.current.checked = false
     }
