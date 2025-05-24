@@ -3,13 +3,15 @@ import { useAuth } from './authContext'
 import { useCart } from './cartContext'
 import axios from 'axios'
 import { modal } from '../utils/modalUtils'
+import { useNavigate } from 'react-router'
 
 const orderContext = createContext()
 
 export const useOrder = () => useContext(orderContext)
 
 function orderProvider ({ children }) {
-    const { user } = useAuth()
+    const navigate = useNavigate()
+    const { user, setUser } = useAuth()
     const { total, setCart } = useCart()
     const [ orders, setOrders ] = useState([])
     const [ isOrderError, setIsOrderError ] = useState(false)
@@ -29,12 +31,19 @@ function orderProvider ({ children }) {
         } catch (error) {
             if (error.status === 404) {
                 setOrders([]) 
-                return setIsOrdersLoading(false)
+                setIsOrdersLoading(false)
+                return 
             } 
+            if (error.status === 401) {
+                navigate('/login')
+                setUser(null)
+                return
+            }
             console.log(error)
             setIsOrderError(true)
+        } finally {
+            setIsOrdersLoading(false)
         }
-        setIsOrdersLoading(false)
     }
 
     const createOrder = async () => {
@@ -46,7 +55,7 @@ function orderProvider ({ children }) {
         }))
         
         const order = {
-            user: user._id,
+            user: user?._id,
             products,
             total
         }
@@ -62,10 +71,16 @@ function orderProvider ({ children }) {
             localStorage.removeItem('cartProducts')
             modal('success', 'Orden creada', 'Revisa tu compra en la seccion de compras')
         } catch (error) {
+            if (error.status === 401) {
+                navigate('/login')
+                setUser(null)
+                return
+            } 
             console.log(error)
             modal('error', 'Opps', 'Error al crear orden')
+        } finally {
+            setIsCreateOrderLoading(false)
         }
-        setIsCreateOrderLoading(false)
     }
 
     const createOrderWithoutCart = async (product) => {
@@ -90,10 +105,16 @@ function orderProvider ({ children }) {
 
             modal('success', 'Orden creada', 'Revisa tu compra en la seccion de compras o ordenes')
         } catch (error) {
+            if (error.status === 401) {
+                navigate('/login')
+                setUser(null)
+                return
+            } 
             console.log(error)
             modal('error', 'Opps', 'Error al crear orden')
+        } finally {
+            setIsCreateOrderLoading(false)
         }
-        setIsCreateOrderLoading(false)
     }
 
     return (

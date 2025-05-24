@@ -4,10 +4,12 @@ import { useForm } from "react-hook-form"
 import { modal } from "../../utils/modalUtils"
 import { useEffect } from "react"
 import axios from "axios"
+import { useAuth } from "../../context/authContext"
 import './UserModal.css'
 
 export default function UserModal({ toggleUserModal, setUsers, users, editUser }) {
     const { register, handleSubmit, watch, formState: { errors }, setValue, reset } = useForm()
+    const { setUser } = useAuth()
     const URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
     
     const COUNTRIES = [
@@ -73,24 +75,29 @@ export default function UserModal({ toggleUserModal, setUsers, users, editUser }
 
         if (editUser) {
             try {
-                const { data } = await axios.put(`${URL}/users/${editUser._id}`, newUser)
+                const { data } = await axios.put(`${URL}/users/${editUser._id}`, newUser, {
+                    withCredentials: true
+                })
                 const updatedUsers = users.map(user => user._id === data.updatedUser._id ? {...data.updatedUser} : user)
 
-                console.log(updatedUsers)
                 setUsers(updatedUsers)
                 modal('success', 'Usuario actualizado con exito!')
             } catch (error) {
+                if (error.status === 401) return setUser(null)
                 console.log(error)
                 modal('error', 'Oops...', 'Parece que algo salio mal, intentelo mas tarde')
             }
         } else {            
             try {
-                const { data } = await axios.post(`${URL}/register`, newUser)
+                const { data } = await axios.post(`${URL}/users`, newUser, {
+                    withCredentials: true
+                })
 
                 setUsers([...users, data.newUser])
                 modal('success', 'Usuario subido con con exito!')
             } catch (error) {
                 console.log(error)
+                if (error.status === 401) return setUser(null)
                 if (error.status === 400) return modal('error', 'Oops...', error.response.data.message )
                 modal('error', 'Oops...', 'Parece que algo salio mal, intentelo mas tarde')
             }

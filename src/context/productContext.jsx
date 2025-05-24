@@ -4,12 +4,15 @@ import Swal from 'sweetalert2'
 import { modal } from "../utils/modalUtils.js";
 import { useCart } from "./cartContext";
 import { useCategory } from "./categoryContext.jsx";
+import { useAuth } from '../context/authContext.jsx'
+import { useNavigate } from "react-router";
 
 const ProductContext = createContext()
 
 export const useProducts = () => useContext(ProductContext)
 
 function ProductProvider( {children} ) {
+    const { setUser } = useAuth()
     const [products, setProducts] = useState(null)
     const [product, setProduct] = useState(null)
     const [error, setError] = useState(null)
@@ -36,7 +39,7 @@ function ProductProvider( {children} ) {
         if (product === '') return setSearchResult([])
         setIsSearchLoading(true)
         try {
-            const { data } = await axios.get(`${URL}/products?product=${product}&limit=${limit}`)
+            const { data } = await axios.get(`${URL}/products/search?product=${product}&limit=${limit}`)
             setSearchResult(data.products)
             setSearch(product)
         } catch (error) {
@@ -49,10 +52,13 @@ function ProductProvider( {children} ) {
 
     async function getProducts(product = '') {
         try {
-            const { data } = await axios.get(`${URL}/products?product=${product}`)
+            const { data } = await axios.get(`${URL}/products?product=${product}`, {
+                withCredentials: true
+            })
             setProducts(data.products)
         } catch (error) {
             if (error.status === 404) return setProducts([])
+            if (error.status === 401) return setUser(null)
             console.log(error)
             setError(true)
         }
@@ -87,7 +93,9 @@ function ProductProvider( {children} ) {
 
         try {
             if (editProduct) {
-                const { data } = await axios.put(`${URL}/products/${editProduct._id}`, formData)
+                const { data } = await axios.put(`${URL}/products/${editProduct._id}`, formData, {
+                    withCredentials: true
+                })
                 const updatedProducts = products.map(product => product._id === editProduct._id ? {...data.updatedProduct} : product)
                 
                 updateFromCartIfUpdated(data.updatedProduct)
@@ -95,7 +103,9 @@ function ProductProvider( {children} ) {
                 setEditProduct(null)
                 modal('success', '¡Producto actualizado con exito!')
             } else {
-                const { data } = await axios.post(`${URL}/products`, formData)
+                const { data } = await axios.post(`${URL}/products`, formData, {
+                    withCredentials: true
+                })
                 setProducts([...products, data.newProduct])
                 
                 modal('success', '¡Producto subido con exito!')
@@ -103,6 +113,11 @@ function ProductProvider( {children} ) {
 
             setIsOpen(!isOpen)
         } catch (error) {
+            if (error.status === 401) {
+                setUser(null)
+                setIsOpen(false)
+                return
+            } 
             console.log(error)
             modal('error', 'Oops...', 'Parece que algo salio mal, intentelo mas tarde')
         }
@@ -131,7 +146,8 @@ function ProductProvider( {children} ) {
             try {
                 if (result.isConfirmed) {
                   await axios.delete(`${URL}/products/${id}`, {
-                    data: { image }
+                    data: { image },
+                    withCredentials: true
                   })
     
                   const newProducts = products.filter(product => product._id !== id)
@@ -141,6 +157,10 @@ function ProductProvider( {children} ) {
                   modal('success', 'Eliminado', 'Tu producto fue eliminado con exito')
                 }
             } catch (error) {
+                if (error.status === 401) {
+                    setUser(null)
+                    return
+                } 
                 console.log(error)
                 modal('error', 'Oops...', 'Parece que algo salio mal, intentelo mas tarde')
             }

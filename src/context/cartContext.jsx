@@ -1,14 +1,18 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useAuth } from "./authContext";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 
 const CartContext = createContext()
 
 export const useCart = () => useContext(CartContext)
 
 function CartProvider({ children }) {
+    const { user } = useAuth()
     const [cart, setCart] = useState(null)
     const [count, setCount] = useState(0)
     const [total, setTotal] = useState(0)
+    const navigate = useNavigate()
 
     useEffect(() => {
         let contador = 0
@@ -45,28 +49,33 @@ function CartProvider({ children }) {
     }
 
     function addProductToCart(product) {
-        const cartProductsInLocalStorage = JSON.parse(localStorage.getItem('cartProducts'))
-        product.quantity = 1
-        product.total_product = product.price
-
-        if (cartProductsInLocalStorage) {
-            const isInCart = cartProductsInLocalStorage.find(cart => cart._id === product._id)
-                        
-            if (isInCart) {
-                let cartProducts = cartProductsInLocalStorage.filter(cart => cart._id !== product._id) 
-                localStorage.setItem('cartProducts', JSON.stringify(cartProducts))
-                setCart(cartProducts)
-                cartModal('Producto eliminado del carrito')
+        if (user) {
+            const cartProductsInLocalStorage = JSON.parse(localStorage.getItem('cartProducts'))
+            product.quantity = 1
+            product.total_product = product.price
+    
+            if (cartProductsInLocalStorage) {
+                const isInCart = cartProductsInLocalStorage.find(cart => cart._id === product._id)
+                            
+                if (isInCart) {
+                    let cartProducts = cartProductsInLocalStorage.filter(cart => cart._id !== product._id) 
+                    localStorage.setItem('cartProducts', JSON.stringify(cartProducts))
+                    setCart(cartProducts)
+                    cartModal('Producto eliminado del carrito')
+                } else {
+                    localStorage.setItem('cartProducts', JSON.stringify([...cartProductsInLocalStorage, product]))
+                    setCart([...cartProductsInLocalStorage, product])
+                    cartModal('Producto agregado al carrito')
+                }
             } else {
-                localStorage.setItem('cartProducts', JSON.stringify([...cartProductsInLocalStorage, product]))
-                setCart([...cartProductsInLocalStorage, product])
+                localStorage.setItem('cartProducts', JSON.stringify([product]))
+                setCart([product])
                 cartModal('Producto agregado al carrito')
             }
         } else {
-            localStorage.setItem('cartProducts', JSON.stringify([product]))
-            setCart([product])
-            cartModal('Producto agregado al carrito')
+            navigate('/login')
         }
+
     }
 
     function removeProductFromCart(id) {

@@ -50,7 +50,11 @@ function App() {
                 <UserDashboard/>
               </AdminGuard>
              }/>
-            <Route path='cart' element={ <Cart/> } />
+            <Route path='cart' element={ 
+              <PrivateRoute>
+                <Cart/>
+              </PrivateRoute>
+             } />
             <Route path='product/:id' element={ <ProductDetails/> }/>
             <Route path='products/search' element={ <SearchResult/> }/>
             <Route path='orders' element={ 

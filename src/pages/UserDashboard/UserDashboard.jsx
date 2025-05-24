@@ -10,9 +10,11 @@ import Loading from "../../components/Loading/Loading";
 import axios from "axios";
 import NoItemsFound from "../../components/NoItemsFound/NoItemsFound";
 import Error from "../../components/Error/Error";
-import       SearchBar from "../../components/SearchBar/SearchBar";
+import { useAuth } from "../../context/authContext";
+import SearchBar from "../../components/SearchBar/SearchBar";
 
 export default function UserDashboard() {
+    const { setUser } = useAuth()
     const [isOpen, setIsOpen] = useState(false)
     const [error, setError] = useState(false)
     const [editUser, setEditUser] = useState(null)
@@ -27,14 +29,15 @@ export default function UserDashboard() {
         getUsers()
     }, [])
 
-
     async function getUsers(user = '') {
         try {
-            const { data } = await axios.get(`${URL}/users?username=${user}`)
-            console.log(data)
+            const { data } = await axios.get(`${URL}/users?username=${user}`, {
+                withCredentials: true
+            })
             setUsers(data.users) 
         } catch (error) {
             if (error.status === 404) return setUsers([])
+            if (error.status === 401) return setUser(null)
             setError(true)
         }
     }
@@ -56,7 +59,9 @@ export default function UserDashboard() {
           }).then(async (result) => {
             try {
                 if (result.isConfirmed) {
-                  await axios.delete(`${URL}/users/${id}`)
+                  await axios.delete(`${URL}/users/${id}`, {
+                    withCredentials: true
+                  })
     
                   const newUsers = users.filter(user => user._id !== id)
                   setUsers(newUsers)
@@ -64,6 +69,7 @@ export default function UserDashboard() {
                   modal('success', 'Eliminado', 'El usuario fue eliminado con exito')
                 }
             } catch (error) {
+                if (error.status === 401) return setUser(null)
                 console.log(error)
                 modal('error', 'Oops...', 'Parece que algo salio mal, intentelo mas tarde')
             }
